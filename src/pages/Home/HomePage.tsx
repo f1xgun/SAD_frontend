@@ -13,9 +13,9 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true);
     const userState = useAppSelector((state) => state.user);
 
-    useEffect(() => {
+    const getUserInfo = async () => {
         setLoading(true);
-        UserApi.getUserInfo()
+        await UserApi.getSelfUserInfo()
             .then((response) => {
                 if (response.status == 200) {
                     dispatch(setUser(response.data));
@@ -27,7 +27,11 @@ const HomePage = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [dispatch]);
+    };
+
+    useEffect(() => {
+        getUserInfo();
+    }, []);
 
     if (loading) {
         return <div className={styles.container}>Loading...</div>;

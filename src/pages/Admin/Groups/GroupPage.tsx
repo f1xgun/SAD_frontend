@@ -20,15 +20,15 @@ const GroupPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setLoading(true);
-        if (params.group_id === undefined) {
+        if (params.groupId === undefined) {
             navigate('/');
             return;
         }
-        getGroupDetails(params.group_id);
+        getGroupDetails(params.groupId);
     }, [params, navigate]);
 
     const getGroupDetails = async (id: string) => {
+        setLoading(true);
         await GroupApi.getGroupDetails(id)
             .then((response) => {
                 console.log(response);
@@ -41,7 +41,7 @@ const GroupPage = () => {
 
     async function getUserHints(login: string): Promise<Array<JSONMap>> {
         return GroupApi.getAvailableNewUsers({
-            groupId: params.group_id!,
+            groupId: params.groupId!,
             login: login,
         }).then((response) => response.data);
     }
@@ -50,11 +50,11 @@ const GroupPage = () => {
         if (currentNewUser === undefined) return;
 
         await GroupApi.addNewUserToGroup({
-            groupId: params.group_id!,
+            groupId: params.groupId!,
             userId: currentNewUser.id,
         });
 
-        await getGroupDetails(params.group_id!);
+        await getGroupDetails(params.groupId!);
 
         setLogin('');
         setCurrentNewUser(undefined);
@@ -62,11 +62,11 @@ const GroupPage = () => {
 
     const deleteUser = async (id: string) => {
         await GroupApi.deleteUserFromGroup({
-            groupId: params.group_id!,
+            groupId: params.groupId!,
             userId: id,
         });
 
-        await getGroupDetails(params.group_id!);
+        await getGroupDetails(params.groupId!);
     };
 
     return loading || group === undefined ? (
@@ -75,6 +75,12 @@ const GroupPage = () => {
         <ScrollContainer
             headerTitle={group.number}
             emptyChildrenText="Nobody student in this group"
+            showEditButton={true}
+            onEditButtonClick={() =>
+                navigate(`/groups/${params.groupId}/edit`, {
+                    state: { groupNumber: group.number },
+                })
+            }
             children={
                 group.students?.map((student) => {
                     return (

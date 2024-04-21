@@ -17,7 +17,7 @@ export function userFromJson(json: JSONMap) : IUser {
     };
 }
 
-function userRoleFromString(role: string) : UserRole {
+export function userRoleFromString(role: string) : UserRole {
     const roleMap: { [key: string]: UserRole } = {
         [UserRole.Admin.toString()]: UserRole.Admin,
         [UserRole.Teacher.toString()]: UserRole.Teacher,

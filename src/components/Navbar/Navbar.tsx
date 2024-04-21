@@ -30,9 +30,14 @@ const Navbar = () => {
                         </NavLink>
                     )}
                     {user.role === UserRole.Admin && (
-                        <NavLink to="groups" className={styles.navBlock}>
-                            Группы
-                        </NavLink>
+                        <div className={styles.navBlocksContainer}>
+                            <NavLink to="groups" className={styles.navBlock}>
+                                Группы
+                            </NavLink>
+                            <NavLink to="users" className={styles.navBlock}>
+                                Пользователи
+                            </NavLink>
+                        </div>
                     )}
                 </>
             )}

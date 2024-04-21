@@ -1,0 +1,15 @@
+.user {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    font-size: 2rem;
+}
+
+.userName {
+    flex: 50%;
+}
+
+.userRole {
+    flex: 30%;
+}

@@ -10,6 +10,9 @@ import TeacherGroupsPage from './pages/Teacher/Groups/GroupsPage';
 import AdminGroupsPage from './pages/Admin/Groups/GroupsPage';
 import AdminGroupPage from './pages/Admin/Groups/GroupPage';
 import AddGroupPage from './pages/Admin/Groups/AddGroupPage';
+import EditGroupPage from './pages/Admin/Groups/EditGroupPage';
+import UsersPage from './pages/Admin/Users/UsersPage';
+import EditUserPage from './pages/Admin/Users/EditUserPage';
 
 function App() {
     const user = useAppSelector((state) => state.user.user);
@@ -57,10 +60,20 @@ function App() {
                                 }
                             />
                             <Route
-                                path="groups/:group_id"
+                                path="groups/:groupId"
                                 element={
                                     <ProtectedRoute
                                         component={<AdminGroupPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="groups/:groupId/edit"
+                                element={
+                                    <ProtectedRoute
+                                        component={<EditGroupPage />}
                                         allowedRoles={[UserRole.Admin]}
                                         redirectPath={''}
                                     />
@@ -71,6 +84,27 @@ function App() {
                                 element={
                                     <ProtectedRoute
                                         component={<AddGroupPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+
+                            <Route
+                                path="users"
+                                element={
+                                    <ProtectedRoute
+                                        component={<UsersPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="users/:userId/edit"
+                                element={
+                                    <ProtectedRoute
+                                        component={<EditUserPage />}
                                         allowedRoles={[UserRole.Admin]}
                                         redirectPath={''}
                                     />

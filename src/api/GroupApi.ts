@@ -31,6 +31,11 @@ class GroupApi {
     async createGroup(number: string) {
         return await api.post(`/groups/`, { "number": number })
     }
+
+    async editGroup(options : { groupId: string, number: string }) {
+        const { groupId, number } = options;
+        return await api.patch(`/groups/${groupId}/`, { "number" : number})
+    }
 }
 
 export default new GroupApi();

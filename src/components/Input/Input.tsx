@@ -71,45 +71,41 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                     {props.label !== undefined && (
                         <label className={styles.label}>{props.label}</label>
                     )}
-                    <div className={styles.content}>
-                        <input
-                            value={value}
-                            onChange={(e) => {
-                                setValue(e.target.value);
-                                if (props.onChange !== undefined) {
-                                    props.onChange(e.target.value);
-                                }
-                            }}
-                            placeholder={props.placeholderText}
-                            type={
-                                props.type == InputType.text
-                                    ? 'text'
-                                    : 'password'
+                    <input
+                        value={value}
+                        onChange={(e) => {
+                            setValue(e.target.value);
+                            if (props.onChange !== undefined) {
+                                props.onChange(e.target.value);
                             }
-                            className={styles.input}
-                            onFocus={updateHints}
+                        }}
+                        placeholder={props.placeholderText}
+                        type={
+                            props.type == InputType.text ? 'text' : 'password'
+                        }
+                        className={styles.input}
+                        onFocus={updateHints}
+                    />
+                    {props.withSearchIcon !== undefined && (
+                        <img
+                            src={searchIcon}
+                            alt="Search icon"
+                            onClick={props.onSearchIconClick}
+                            className={styles.searchIcon}
                         />
-                        {props.withSearchIcon !== undefined && (
-                            <img
-                                src={searchIcon}
-                                alt="Search icon"
-                                onClick={props.onSearchIconClick}
-                                className={styles.searchIcon}
-                            />
-                        )}
-                        {showHints && props.getHintName !== undefined && (
-                            <div className={styles.hints}>
-                                {hints.map((hint, ind) => (
-                                    <div
-                                        key={ind}
-                                        className={styles.hintsItem}
-                                        onClick={() => onHintClick(hint)}>
-                                        {props.getHintName!(hint)}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    )}
+                    {showHints && props.getHintName !== undefined && (
+                        <div className={styles.hints}>
+                            {hints.map((hint, ind) => (
+                                <div
+                                    key={ind}
+                                    className={styles.hintsItem}
+                                    onClick={() => onHintClick(hint)}>
+                                    {props.getHintName!(hint)}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             );
         case InputType.select:
@@ -118,29 +114,27 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                     {props.label !== undefined && (
                         <label className={styles.label}>{props.label}</label>
                     )}
-                    <div className={styles.selectContent}>
-                        <select
-                            value={value}
-                            onChange={(e) => {
-                                setValue(e.target.value);
-                                if (props.onChange !== undefined) {
-                                    props.onChange(e.target.value);
-                                }
-                            }}
-                            className={styles.selectInput}>
-                            <option
-                                value=""
-                                disabled
-                                selected
-                                hidden
-                                className={styles.placeholder}>
-                                {props.placeholderText}
-                            </option>
-                            {props.options?.map((it) => (
-                                <option value={it}>{it}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <select
+                        value={value}
+                        onChange={(e) => {
+                            setValue(e.target.value);
+                            if (props.onChange !== undefined) {
+                                props.onChange(e.target.value);
+                            }
+                        }}
+                        className={styles.selectInput}>
+                        <option
+                            value=""
+                            disabled
+                            selected
+                            hidden
+                            className={styles.placeholder}>
+                            {props.placeholderText}
+                        </option>
+                        {props.options?.map((it) => (
+                            <option value={it}>{it}</option>
+                        ))}
+                    </select>
                 </div>
             );
         case InputType.calendar:

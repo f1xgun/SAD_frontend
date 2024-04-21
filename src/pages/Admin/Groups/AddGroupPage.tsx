@@ -15,7 +15,7 @@ const AddGroupPage = () => {
     const navigate = useNavigate();
 
     const createGroup = async () => {
-        GroupApi.createGroup(groupNumber)
+        await GroupApi.createGroup(groupNumber)
             .then(() => navigate('/groups'))
             .catch((err) => {
                 console.error(err);
@@ -31,7 +31,7 @@ const AddGroupPage = () => {
                     type={InputType.text}
                     label="Номер группы"
                     placeholderText="Введите номер новой группы"
-                    key="login"
+                    key="number"
                     onChange={(value) => setGroupNumber(value)}
                 />,
             ]}

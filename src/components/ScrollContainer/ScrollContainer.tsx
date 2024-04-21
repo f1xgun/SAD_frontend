@@ -1,5 +1,6 @@
 import addIcon from './../../assets/newIcon.svg';
 import styles from './ScrollContainer.module.css';
+import editIcon from './../../assets/editIcon.svg';
 
 interface ScrollContainerProps {
     headerTitle: string;
@@ -8,6 +9,8 @@ interface ScrollContainerProps {
     footer?: JSX.Element;
     showAddButton?: boolean;
     onAddButtonClick?: () => void;
+    showEditButton?: boolean;
+    onEditButtonClick?: () => void;
 }
 
 const ScrollContainer: React.FC<ScrollContainerProps> = ({
@@ -17,15 +20,29 @@ const ScrollContainer: React.FC<ScrollContainerProps> = ({
     showAddButton,
     onAddButtonClick,
     emptyChildrenText,
+    showEditButton,
+    onEditButtonClick,
 }) => {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 {headerTitle}
-                {showAddButton && (
-                    <button className={styles.addButton}>
-                        <img src={addIcon} onClick={onAddButtonClick} />
-                    </button>
+                {(showAddButton || showEditButton) && (
+                    <div className={styles.actionButtonsCotainer}>
+                        {showAddButton && (
+                            <button>
+                                <img src={addIcon} onClick={onAddButtonClick} />
+                            </button>
+                        )}
+                        {showEditButton && (
+                            <button>
+                                <img
+                                    src={editIcon}
+                                    onClick={onEditButtonClick}
+                                />
+                            </button>
+                        )}
+                    </div>
                 )}
             </div>
             <div className={styles.scrollContainer}>

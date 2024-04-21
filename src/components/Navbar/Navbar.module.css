@@ -15,7 +15,7 @@
 .userInfo {
     display: flex;
     align-items: center;
-    gap: 3rem;
+    gap: 2rem;
     justify-content: end;
 }
 
@@ -24,6 +24,12 @@
     border-radius: 1rem;
     background: #B039CE;
     padding: 0.5rem 1rem;
+}
+
+.navBlocksContainer {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 .button {
