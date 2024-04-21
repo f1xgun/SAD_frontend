@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import GroupApi from '../../../api/GroupApi';
-import { IGroup } from '../../../models/group/group';
+import { IGroup, groupFromJson } from '../../../models/group/group';
 import styles from './GroupsPage.module.css';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
 import ElementControllers from '../../../components/ElementControllers/ElementControllers';
 import { useNavigate } from 'react-router-dom';
+import { JSONMap } from '../../../models/json';
 
 const GroupsPage = () => {
     const [groups, setGroups] = useState<Array<IGroup>>([]);
@@ -12,25 +13,34 @@ const GroupsPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        getGroupsList();
+    }, []);
+
+    const getGroupsList = async () => {
         setLoading(true);
-        GroupApi.getGroups()
+        await GroupApi.getGroups()
             .then((response) => {
                 setGroups(
-                    response.data.map((group: { [key: string]: unknown }) => ({
-                        id: group.id,
-                        number: group.number,
-                    })),
+                    response.data.map((group: JSONMap) => groupFromJson(group)),
                 );
             })
             .catch((err) => console.error(err))
             .finally(() => setLoading(false));
-    }, []);
+    };
+
+    const deleteGroup = async (groupId: string) => {
+        await GroupApi.deleteGroup(groupId).catch((err) => console.error(err));
+        await getGroupsList();
+    };
 
     return loading ? (
         'Loading'
     ) : (
         <ScrollContainer
+            emptyChildrenText="Groups list is empty"
             headerTitle="Группы"
+            showAddButton={true}
+            onAddButtonClick={() => navigate('/groups/create')}
             children={
                 groups.map((group) => {
                     return (
@@ -43,7 +53,7 @@ const GroupsPage = () => {
                                     onEdit={() =>
                                         navigate(`/groups/${group.id}`)
                                     }
-                                    onDelete={() => console.log('delete')}
+                                    onDelete={() => deleteGroup(group.id)}
                                 />
                             </div>
                         </div>

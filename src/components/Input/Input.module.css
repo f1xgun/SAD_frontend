@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    position: relative;
 }
 
 .input {
@@ -34,6 +35,8 @@
     padding: 0.5rem 1rem;
     font-size: 1.25rem;
     min-width: fit-content;
+    z-index: 999;
+
 }
 
 .input::placeholder, .placeholder {
@@ -49,4 +52,26 @@
 
 .searchIcon {
     cursor: pointer;
+}
+
+.hints {
+    position: absolute;
+    width: 100%;
+    background: #ECECEC;
+    color: #000;
+    top: 0rem;
+    padding-top: 2.5rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+
+.hintsItem {
+    cursor: pointer;
+    transition: .3s all ease-in;
+}
+
+.hintsItem:hover {
+    background: #C070E5;
+    color: #fff;
+    overflow: hidden;
 }

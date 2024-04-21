@@ -6,6 +6,8 @@ import { setGrades } from '../../../slices/userSlice';
 import { useDispatch } from 'react-redux';
 import styles from './GradesPage.module.css';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
+import { JSONMap } from '../../../models/json';
+import { gradeFromJson } from '../../../models/grades/Grades';
 
 const GradesPage = () => {
     const [loading, setLoading] = useState(true);
@@ -19,13 +21,8 @@ const GradesPage = () => {
         ) {
             GradesApi.getStudentGrades(userState.user.id).then((response) => {
                 if (response.status == 200) {
-                    const grades = response.data.map(
-                        (grade: { [key: string]: unknown }) => ({
-                            id: grade.id,
-                            subjectName: grade.subject_name,
-                            createdDate: new Date(grade.created_at as string),
-                            evaluation: grade.evaluation,
-                        }),
+                    const grades = response.data.map((json: JSONMap) =>
+                        gradeFromJson(json),
                     );
 
                     dispatch(setGrades(grades));
@@ -39,6 +36,7 @@ const GradesPage = () => {
         'Loading'
     ) : (
         <ScrollContainer
+            emptyChildrenText="Grades list is empty"
             headerTitle="Последние оценки"
             children={
                 userState.grades?.map((grade) => {

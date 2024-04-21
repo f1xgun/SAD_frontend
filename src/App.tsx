@@ -9,6 +9,7 @@ import { useAppSelector } from './store/store';
 import TeacherGroupsPage from './pages/Teacher/Groups/GroupsPage';
 import AdminGroupsPage from './pages/Admin/Groups/GroupsPage';
 import AdminGroupPage from './pages/Admin/Groups/GroupPage';
+import AddGroupPage from './pages/Admin/Groups/AddGroupPage';
 
 function App() {
     const user = useAppSelector((state) => state.user.user);
@@ -60,6 +61,16 @@ function App() {
                                 element={
                                     <ProtectedRoute
                                         component={<AdminGroupPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="groups/create"
+                                element={
+                                    <ProtectedRoute
+                                        component={<AddGroupPage />}
                                         allowedRoles={[UserRole.Admin]}
                                         redirectPath={''}
                                     />

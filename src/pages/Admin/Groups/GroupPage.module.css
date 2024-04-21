@@ -9,38 +9,21 @@
 .footer {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.searchContainer {
+    display: flex;
+    align-items: center;
     justify-content: space-around;
     gap: 1rem;
 }
 
-.inputContainer {
-    position: relative;
+.studentName {
+    flex: 50%;
 }
 
-.inputField {
-    z-index: 999;
-    position: relative;
-}
-
-.hints {
-    position: absolute;
-    width: 100%;
-    background: #ECECEC;
-    color: #000;
-    top: 0rem;
-    padding-top: 2.5rem;
-    border-radius: 0.8rem;
-    overflow: hidden;
-}
-
-
-.hintsItem {
-    cursor: pointer;
-    transition: .3s all ease-in;
-}
-
-.hintsItem:hover {
-    background: #C070E5;
-    color: #fff;
-    overflow: hidden;
+.studentRole {
+    flex: 30%;
 }

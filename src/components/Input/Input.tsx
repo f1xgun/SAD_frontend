@@ -1,29 +1,73 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import searchIcon from '../../assets/searchIcon.svg';
 import styles from './Input.module.css';
 import { InputType } from './InputType';
+import { JSONMap } from '../../models/json';
 
-interface InputProps {
+interface InputProps<T> {
     placeholderText?: string;
     withSearchIcon?: boolean;
     type: InputType;
     label?: string;
     value?: string;
-    onClick?: () => void;
+    onSearchIconClick?: () => void;
     onChange?: (arg0: string) => void;
     options?: string[];
-    onFocus?: () => void;
-    onBlur?: () => void;
+    getHints?: (arg: string) => Promise<Array<JSONMap>>;
+    hintMapper?: (arg0: JSONMap) => T;
+    getHintName?: (arg: T) => string;
+    onHintClick?: (arg: T) => void;
 }
 
-const Input = ({ ...props }: InputProps) => {
-    const [value, setValue] = useState(props.value ?? '');
+const Input = <T,>({ ...props }: InputProps<T>) => {
+    const [value, setValue] = useState<string>(props.value ?? '');
+    const [hints, setHints] = useState<Array<T>>([]);
+    const [showHints, setShowHints] = useState<boolean>(false);
+    const [currentHintValue, setCurrentHintValue] = useState<T>();
+
+    useEffect(() => {
+        updateHints();
+    }, [value]);
+
+    const updateHints = () => {
+        if (props.getHints !== undefined && props.hintMapper !== undefined) {
+            props
+                .getHints(value)
+                .then((resp) =>
+                    resp
+                        .map((hint) => props.hintMapper!(hint))
+                        .filter(
+                            (hint) =>
+                                JSON.stringify(hint) !=
+                                JSON.stringify(currentHintValue),
+                        ),
+                )
+                .then((hints) => setHints(hints));
+        }
+
+        if (hints.length != 0) {
+            setShowHints(true);
+        }
+    };
+
+    const onHintClick = (hint: T) => {
+        if (props.onHintClick !== undefined) {
+            props.onHintClick(hint);
+        }
+        setCurrentHintValue(hint);
+        setValue(props.getHintName!(hint));
+        setShowHints(false);
+    };
 
     switch (props.type) {
         case InputType.text:
         case InputType.password:
             return (
-                <div className={styles.container}>
+                <div
+                    className={styles.container}
+                    // Fix onBlur hide hints
+                    // onBlur={(e) => console.log(e)}
+                >
                     {props.label !== undefined && (
                         <label className={styles.label}>{props.label}</label>
                     )}
@@ -43,16 +87,27 @@ const Input = ({ ...props }: InputProps) => {
                                     : 'password'
                             }
                             className={styles.input}
-                            onFocus={props.onFocus}
-                            onBlur={props.onBlur}
+                            onFocus={updateHints}
                         />
                         {props.withSearchIcon !== undefined && (
                             <img
                                 src={searchIcon}
                                 alt="Search icon"
-                                onClick={props.onClick}
+                                onClick={props.onSearchIconClick}
                                 className={styles.searchIcon}
                             />
+                        )}
+                        {showHints && props.getHintName !== undefined && (
+                            <div className={styles.hints}>
+                                {hints.map((hint, ind) => (
+                                    <div
+                                        key={ind}
+                                        className={styles.hintsItem}
+                                        onClick={() => onHintClick(hint)}>
+                                        {props.getHintName!(hint)}
+                                    </div>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>
@@ -111,7 +166,7 @@ const Input = ({ ...props }: InputProps) => {
                             <img
                                 src={searchIcon}
                                 alt="Search icon"
-                                onClick={props.onClick}
+                                onClick={props.onSearchIconClick}
                                 className={styles.searchIcon}
                             />
                         )}

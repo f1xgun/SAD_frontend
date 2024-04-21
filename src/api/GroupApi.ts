@@ -23,6 +23,14 @@ class GroupApi {
         const { groupId, userId } = options;
         return await api.delete(`/groups/${groupId}/users/${userId}`)
     }
+
+    async deleteGroup(groupId: string) {
+        return await api.delete(`/groups/${groupId}/`)
+    }
+
+    async createGroup(number: string) {
+        return await api.post(`/groups/`, { "number": number })
+    }
 }
 
 export default new GroupApi();

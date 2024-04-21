@@ -21,6 +21,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     display: table;
+    margin-bottom: 1.5rem;
 }
 
 .inputs {

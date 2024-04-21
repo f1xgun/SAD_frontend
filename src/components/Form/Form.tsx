@@ -7,7 +7,7 @@ interface FormProps {
     footer?: JSX.Element;
 }
 
-const Form = ({ ...props }: FormProps) => {
+const Form: React.FC<FormProps> = (props) => {
     return (
         <form className={styles.form}>
             <fieldset className={styles.fieldset}>

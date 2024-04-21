@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import GroupApi from '../../../api/GroupApi';
-import { IGroup } from '../../../models/group/group';
+import { IGroup, groupFromJson } from '../../../models/group/group';
 import styles from './GroupPage.module.css';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
 import ElementControllers from '../../../components/ElementControllers/ElementControllers';
@@ -8,14 +8,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import addIcon from '../../../assets/newIcon.svg';
 import Input from '../../../components/Input/Input';
 import { InputType } from '../../../components/Input/InputType';
-import { IUser, UserMapperFromJson } from '../../../models/user/User';
+import { IUser, userFromJson } from '../../../models/user/User';
+import { JSONMap } from '../../../models/json';
 
 const GroupPage = () => {
     const [group, setGroup] = useState<IGroup>();
     const [loading, setLoading] = useState(true);
     const [login, setLogin] = useState('');
     const [currentNewUser, setCurrentNewUser] = useState<IUser>();
-    const [hintUsers, setHintUsers] = useState<Array<IUser>>([]);
     const params = useParams();
     const navigate = useNavigate();
 
@@ -31,39 +31,20 @@ const GroupPage = () => {
     const getGroupDetails = async (id: string) => {
         await GroupApi.getGroupDetails(id)
             .then((response) => {
-                setGroup({
-                    id: response.data.id,
-                    number: response.data.number,
-                    students: response.data.users.map(
-                        (student: { [key: string]: unknown }) =>
-                            UserMapperFromJson(student),
-                    ),
-                });
+                console.log(response);
+
+                setGroup(groupFromJson(response.data));
             })
             .catch((err) => console.error(err))
             .finally(() => setLoading(false));
     };
 
-    const updateHints = (login: string) => {
-        if (params.group_id === undefined) return;
-        GroupApi.getAvailableNewUsers({
-            groupId: params.group_id,
+    async function getUserHints(login: string): Promise<Array<JSONMap>> {
+        return GroupApi.getAvailableNewUsers({
+            groupId: params.group_id!,
             login: login,
-        }).then((response) =>
-            setHintUsers(
-                response.data.map((user: { [key: string]: unknown }) =>
-                    UserMapperFromJson(user),
-                ),
-            ),
-        );
-        setCurrentNewUser(undefined);
-    };
-
-    const onNewUserSelect = (user: IUser) => {
-        setCurrentNewUser(user);
-        setHintUsers([]);
-        setLogin(user.login);
-    };
+        }).then((response) => response.data);
+    }
 
     const addNewUser = async () => {
         if (currentNewUser === undefined) return;
@@ -93,12 +74,13 @@ const GroupPage = () => {
     ) : (
         <ScrollContainer
             headerTitle={group.number}
+            emptyChildrenText="Nobody student in this group"
             children={
                 group.students?.map((student) => {
                     return (
                         <div key={student.id} className={styles.student}>
-                            <p>{student.name}</p>
-                            <p>{student.role}</p>
+                            <p className={styles.studentName}>{student.name}</p>
+                            <p className={styles.studentRole}>{student.role}</p>
                             <div className={styles.controllers}>
                                 <ElementControllers
                                     showEditIcon={false}
@@ -112,35 +94,30 @@ const GroupPage = () => {
             }
             footer={
                 <div className={styles.footer}>
-                    <div className={styles.inputContainer}>
-                        <div className={styles.inputField}>
-                            <Input
+                    <div className={styles.searchContainer}>
+                        <div className={styles.inputContainer}>
+                            <Input<IUser>
                                 type={InputType.text}
                                 placeholderText="Введите логин пользователя"
-                                onChange={(value) => {
-                                    setLogin(value);
-                                    updateHints(value);
-                                }}
-                                onFocus={() => updateHints(login)}
-                                // onBlur={() => setHintUsers([])}
+                                onChange={(value) => setLogin(value)}
+                                getHints={(login) => getUserHints(login)}
+                                hintMapper={(json) => userFromJson(json)}
+                                getHintName={(user) => user.name}
+                                onHintClick={(user) => setCurrentNewUser(user)}
                                 value={login}
                             />
                         </div>
-                        <div className={styles.hints}>
-                            {hintUsers.map((user) => (
-                                <div
-                                    key={user.id}
-                                    className={styles.hintsItem}
-                                    onClick={() => onNewUserSelect(user)}>
-                                    {user.login}
-                                </div>
-                            ))}
-                        </div>
+                        <button>
+                            <img src={addIcon} onClick={addNewUser} />
+                        </button>
                     </div>
-                    <button>
-                        <img src={addIcon} onClick={addNewUser} />
-                    </button>
-                    {currentNewUser?.login}
+                    {currentNewUser !== undefined && (
+                        <div className={styles.currentUserContainer}>
+                            <p>Выбранный пользователь для добавления:</p>
+                            <p>Логин: {currentNewUser?.login}</p>
+                            <p>Имя: {currentNewUser?.name}</p>
+                        </div>
+                    )}
                 </div>
             }
         />

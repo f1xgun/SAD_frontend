@@ -1,25 +1,47 @@
+import addIcon from './../../assets/newIcon.svg';
 import styles from './ScrollContainer.module.css';
 
 interface ScrollContainerProps {
     headerTitle: string;
     children: Array<JSX.Element>;
+    emptyChildrenText: string;
     footer?: JSX.Element;
+    showAddButton?: boolean;
+    onAddButtonClick?: () => void;
 }
 
-const ScrollContainer = ({ ...props }: ScrollContainerProps) => {
+const ScrollContainer: React.FC<ScrollContainerProps> = ({
+    headerTitle,
+    children,
+    footer,
+    showAddButton,
+    onAddButtonClick,
+    emptyChildrenText,
+}) => {
     return (
         <div className={styles.container}>
-            <p className={styles.headerTitle}>{props.headerTitle}</p>
-            <div className={styles.scrollContainer}>
-                {props.children.map((child, idx) => {
-                    return (
-                        <div key={idx} className={styles.element}>
-                            {child}
-                        </div>
-                    );
-                })}
+            <div className={styles.header}>
+                {headerTitle}
+                {showAddButton && (
+                    <button className={styles.addButton}>
+                        <img src={addIcon} onClick={onAddButtonClick} />
+                    </button>
+                )}
             </div>
-            {props.footer !== undefined && props.footer}
+            <div className={styles.scrollContainer}>
+                {children.length === 0 ? (
+                    <p>{emptyChildrenText}</p>
+                ) : (
+                    children.map((child, idx) => {
+                        return (
+                            <div key={idx} className={styles.element}>
+                                {child}
+                            </div>
+                        );
+                    })
+                )}
+            </div>
+            {footer !== undefined && footer}
         </div>
     );
 };
