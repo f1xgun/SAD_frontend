@@ -1,0 +1,52 @@
+:root {
+  --bg: #B3B3B3;
+  --text: #FFFFFF;
+  --inputbg: #ECECEC;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Gilroy", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 1.6rem;
+  font-weight: 400;
+  max-width: 85rem;
+  margin: 0 auto;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: .3s color ease-in;
+}
+
+a:hover {
+  color: #400549;
+}
+
+input {
+  border: none;
+}
+
+input:focus {
+  border: none;
+}
+
+input:active {
+  border: none;
+}
+
+button {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+}

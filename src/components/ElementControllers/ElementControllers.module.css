@@ -1,0 +1,9 @@
+.controllersContainer {
+    background: linear-gradient(#F8EEFD, #C9B0D5);
+    border-radius: 1rem;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}

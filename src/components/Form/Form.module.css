@@ -1,0 +1,30 @@
+.form {
+    margin: 0 auto;
+    border-radius: 2rem;
+    background-color: #E5E5E5;
+    padding: 1.5rem 3rem;
+    max-width: fit-content;
+}
+
+.fieldset {
+    margin: 0 auto 1rem;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.legend {
+    text-align: center;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, #771487, #B415B7);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: table;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

@@ -1,0 +1,30 @@
+.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #C7C0C0;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    justify-content: end;
+}
+
+.navBlock {
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    background: #B039CE;
+    padding: 0.5rem 1rem;
+}
+
+.button {
+    cursor: pointer;
+}

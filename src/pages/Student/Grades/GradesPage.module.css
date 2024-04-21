@@ -1,0 +1,7 @@
+.grade {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    margin-right: 2rem;
+}

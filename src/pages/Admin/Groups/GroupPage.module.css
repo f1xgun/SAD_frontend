@@ -1,0 +1,46 @@
+.student {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    font-size: 2rem;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.inputContainer {
+    position: relative;
+}
+
+.inputField {
+    z-index: 999;
+    position: relative;
+}
+
+.hints {
+    position: absolute;
+    width: 100%;
+    background: #ECECEC;
+    color: #000;
+    top: 0rem;
+    padding-top: 2.5rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+
+
+.hintsItem {
+    cursor: pointer;
+    transition: .3s all ease-in;
+}
+
+.hintsItem:hover {
+    background: #C070E5;
+    color: #fff;
+    overflow: hidden;
+}
