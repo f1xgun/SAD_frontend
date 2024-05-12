@@ -23,7 +23,6 @@ const RegistrationPage = () => {
             if (response.status == 200) {
                 redirect('/auth');
             }
-            console.log(response);
         } catch (err) {
             console.error(err);
         }

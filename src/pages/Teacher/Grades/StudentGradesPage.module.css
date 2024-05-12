@@ -1,0 +1,20 @@
+.grade {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    margin-right: 2rem;
+}
+
+.searchContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

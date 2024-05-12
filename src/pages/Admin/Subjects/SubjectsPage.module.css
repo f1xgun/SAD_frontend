@@ -1,0 +1,11 @@
+.subject {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    font-size: 2rem;
+}
+
+.subjectName {
+    flex: 70%;
+}

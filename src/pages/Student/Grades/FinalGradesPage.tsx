@@ -11,7 +11,7 @@ import { gradeFromJson } from '../../../models/grades/Grades';
 import Button from '../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 
-const GradesPage = () => {
+const FinalGradesPage = () => {
     const [loading, setLoading] = useState(true);
     const userState = useAppSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const GradesPage = () => {
         ) {
             GradesApi.getStudentGrades({
                 userId: userState.user.id,
-                isFinal: false,
+                isFinal: true,
             }).then((response) => {
                 if (response.status == 200) {
                     const grades = response.data.map((json: JSONMap) =>
@@ -42,8 +42,8 @@ const GradesPage = () => {
         'Loading'
     ) : (
         <ScrollContainer
-            emptyChildrenText="Grades list is empty"
-            headerTitle="Последние оценки"
+            emptyChildrenText="Final grades list is empty"
+            headerTitle="Итоговые оценки"
             children={
                 userState.grades?.map((grade) => {
                     return (
@@ -57,9 +57,9 @@ const GradesPage = () => {
             }
             footer={
                 <Button
-                    text="Итоговые оценки"
+                    text="Промежуточные оценки"
                     onClick={() =>
-                        navigate('../final-grades', {
+                        navigate('../grades', {
                             relative: 'path',
                         })
                     }
@@ -69,4 +69,4 @@ const GradesPage = () => {
     );
 };
 
-export default GradesPage;
+export default FinalGradesPage;

@@ -37,6 +37,9 @@ const Navbar = () => {
                             <NavLink to="users" className={styles.navBlock}>
                                 Пользователи
                             </NavLink>
+                            <NavLink to="subjects" className={styles.navBlock}>
+                                Дисциплины
+                            </NavLink>
                         </div>
                     )}
                 </>

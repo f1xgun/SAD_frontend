@@ -1,0 +1,24 @@
+.group, .student {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: .3s all ease-in;
+}
+
+.group:hover, .student:hover, .subject:hover {
+    background-color: #836d8a;
+}
+
+.subject {
+    font-size: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s all ease-in;
+}
+
+.studentName {
+    flex: 50%;
+}

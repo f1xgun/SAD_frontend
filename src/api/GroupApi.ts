@@ -36,6 +36,10 @@ class GroupApi {
         const { groupId, number } = options;
         return await api.patch(`/groups/${groupId}/`, { "number" : number})
     }
+
+    async getTeacherGroupsWithSubjects(teacherId: string) {
+        return await api.get(`/groups/teacher`, { params: { "teacher_id": teacherId }})
+    }
 }
 
 export default new GroupApi();

@@ -1,6 +1,7 @@
 export enum InputType {
-    text,
-    select,
-    calendar,
-    password,
+    text = 'text',
+    select = 'select',
+    calendar = 'calendar',
+    password = 'password',
+    number = 'number',
 }

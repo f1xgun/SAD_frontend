@@ -31,8 +31,6 @@ const GroupPage = () => {
         setLoading(true);
         await GroupApi.getGroupDetails(id)
             .then((response) => {
-                console.log(response);
-
                 setGroup(groupFromJson(response.data));
             })
             .catch((err) => console.error(err))
@@ -101,18 +99,16 @@ const GroupPage = () => {
             footer={
                 <div className={styles.footer}>
                     <div className={styles.searchContainer}>
-                        <div className={styles.inputContainer}>
-                            <Input<IUser>
-                                type={InputType.text}
-                                placeholderText="Введите логин пользователя"
-                                onChange={(value) => setLogin(value)}
-                                getHints={(login) => getUserHints(login)}
-                                hintMapper={(json) => userFromJson(json)}
-                                getHintName={(user) => user.name}
-                                onHintClick={(user) => setCurrentNewUser(user)}
-                                value={login}
-                            />
-                        </div>
+                        <Input<IUser>
+                            type={InputType.text}
+                            placeholderText="Введите логин пользователя"
+                            onChange={(value) => setLogin(value)}
+                            getHints={(login) => getUserHints(login)}
+                            hintMapper={(json) => userFromJson(json)}
+                            getHintName={(user) => user.name}
+                            onHintClick={(user) => setCurrentNewUser(user)}
+                            value={login}
+                        />
                         <button>
                             <img src={addIcon} onClick={addNewUser} />
                         </button>

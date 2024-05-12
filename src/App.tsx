@@ -13,6 +13,15 @@ import AddGroupPage from './pages/Admin/Groups/AddGroupPage';
 import EditGroupPage from './pages/Admin/Groups/EditGroupPage';
 import UsersPage from './pages/Admin/Users/UsersPage';
 import EditUserPage from './pages/Admin/Users/EditUserPage';
+import SubjectsPage from './pages/Admin/Subjects/SubjectsPage';
+import EditSubjectPage from './pages/Admin/Subjects/EditSubjectPage';
+import AddSubjectPage from './pages/Admin/Subjects/AddSubjectPage';
+import GroupWithSubjectsPage from './pages/Teacher/Groups/GroupWithSubjectsPage';
+import GroupGradesPage from './pages/Teacher/Groups/GroupGradesPage';
+import StudentGradesPage from './pages/Teacher/Grades/StudentGradesPage';
+import GroupFinalGradesPage from './pages/Teacher/Groups/GroupFinalGradesPage';
+import StudentFinalGradePage from './pages/Teacher/Grades/StudentFinalGradePage';
+import FinalGradesPage from './pages/Student/Grades/FinalGradesPage';
 
 function App() {
     const user = useAppSelector((state) => state.user.user);
@@ -24,28 +33,92 @@ function App() {
                 <Route path="register" element={<RegistrationPage />} />
                 <Route path="/*" element={<HomePage />}>
                     {user?.role == UserRole.Student && (
-                        <Route
-                            path="grades"
-                            element={
-                                <ProtectedRoute
-                                    component={<GradesPage />}
-                                    allowedRoles={[UserRole.Student]}
-                                    redirectPath={''}
-                                />
-                            }
-                        />
+                        <>
+                            <Route
+                                path="grades"
+                                element={
+                                    <ProtectedRoute
+                                        component={<GradesPage />}
+                                        allowedRoles={[UserRole.Student]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="final-grades"
+                                element={
+                                    <ProtectedRoute
+                                        component={<FinalGradesPage />}
+                                        allowedRoles={[UserRole.Student]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                        </>
                     )}
                     {user?.role == UserRole.Teacher && (
-                        <Route
-                            path="groups"
-                            element={
-                                <ProtectedRoute
-                                    component={<TeacherGroupsPage />}
-                                    allowedRoles={[UserRole.Teacher]}
-                                    redirectPath={''}
-                                />
-                            }
-                        />
+                        <>
+                            <Route
+                                path="groups"
+                                element={
+                                    <ProtectedRoute
+                                        component={<TeacherGroupsPage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="groups/:groupId/subjects"
+                                element={
+                                    <ProtectedRoute
+                                        component={<GroupWithSubjectsPage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="groups/:groupId/subject/:subjectId/grades"
+                                element={
+                                    <ProtectedRoute
+                                        component={<GroupGradesPage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="groups/:groupId/subject/:subjectId/final-grades"
+                                element={
+                                    <ProtectedRoute
+                                        component={<GroupFinalGradesPage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="grades/subject/:subjectId/student/:studentId"
+                                element={
+                                    <ProtectedRoute
+                                        component={<StudentGradesPage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="grades/subject/:subjectId/student/:studentId/final"
+                                element={
+                                    <ProtectedRoute
+                                        component={<StudentFinalGradePage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                        </>
                     )}
                     {user?.role == UserRole.Admin && (
                         <>
@@ -105,6 +178,37 @@ function App() {
                                 element={
                                     <ProtectedRoute
                                         component={<EditUserPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+
+                            <Route
+                                path="subjects"
+                                element={
+                                    <ProtectedRoute
+                                        component={<SubjectsPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="subjects/:subjectId/edit"
+                                element={
+                                    <ProtectedRoute
+                                        component={<EditSubjectPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="subjects/create"
+                                element={
+                                    <ProtectedRoute
+                                        component={<AddSubjectPage />}
                                         allowedRoles={[UserRole.Admin]}
                                         redirectPath={''}
                                     />

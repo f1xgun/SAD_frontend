@@ -62,6 +62,7 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
     switch (props.type) {
         case InputType.text:
         case InputType.password:
+        case InputType.number:
             return (
                 <div
                     className={styles.container}
@@ -71,41 +72,41 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                     {props.label !== undefined && (
                         <label className={styles.label}>{props.label}</label>
                     )}
-                    <input
-                        value={value}
-                        onChange={(e) => {
-                            setValue(e.target.value);
-                            if (props.onChange !== undefined) {
-                                props.onChange(e.target.value);
-                            }
-                        }}
-                        placeholder={props.placeholderText}
-                        type={
-                            props.type == InputType.text ? 'text' : 'password'
-                        }
-                        className={styles.input}
-                        onFocus={updateHints}
-                    />
-                    {props.withSearchIcon !== undefined && (
-                        <img
-                            src={searchIcon}
-                            alt="Search icon"
-                            onClick={props.onSearchIconClick}
-                            className={styles.searchIcon}
+                    <div className={styles.inputContainer}>
+                        <input
+                            value={value}
+                            onChange={(e) => {
+                                setValue(e.target.value);
+                                if (props.onChange !== undefined) {
+                                    props.onChange(e.target.value);
+                                }
+                            }}
+                            placeholder={props.placeholderText}
+                            type={props.type.toString()}
+                            className={styles.input}
+                            onFocus={updateHints}
                         />
-                    )}
-                    {showHints && props.getHintName !== undefined && (
-                        <div className={styles.hints}>
-                            {hints.map((hint, ind) => (
-                                <div
-                                    key={ind}
-                                    className={styles.hintsItem}
-                                    onClick={() => onHintClick(hint)}>
-                                    {props.getHintName!(hint)}
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                        {props.withSearchIcon !== undefined && (
+                            <img
+                                src={searchIcon}
+                                alt="Search icon"
+                                onClick={props.onSearchIconClick}
+                                className={styles.searchIcon}
+                            />
+                        )}
+                        {showHints && props.getHintName !== undefined && (
+                            <div className={styles.hints}>
+                                {hints.map((hint, ind) => (
+                                    <div
+                                        key={ind}
+                                        className={styles.hintsItem}
+                                        onClick={() => onHintClick(hint)}>
+                                        {props.getHintName!(hint)}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             );
         case InputType.select:
@@ -132,7 +133,9 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                             {props.placeholderText}
                         </option>
                         {props.options?.map((it) => (
-                            <option value={it}>{it}</option>
+                            <option key={it} value={it}>
+                                {it}
+                            </option>
                         ))}
                     </select>
                 </div>
