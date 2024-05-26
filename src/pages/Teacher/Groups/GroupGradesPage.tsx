@@ -20,26 +20,26 @@ const GroupGradesPage = () => {
     const { state } = useLocation();
 
     useEffect(() => {
-        getGroupSubjectGrades();
-    }, []);
-
-    const getGroupSubjectGrades = async () => {
-        setLoading(true);
-        await GradesApi.getGroupGradesBySubjectId({
-            groupId: params.groupId!,
-            subjectId: params.subjectId!,
-            isFinalGrades: false,
-        })
-            .then((response) => {
-                setUsersWithGrades(
-                    response.data.map((json: JSONMap) =>
-                        userSubjectGradesFromJson(json),
-                    ),
-                );
+        const getGroupSubjectGrades = async () => {
+            setLoading(true);
+            await GradesApi.getGroupGradesBySubjectId({
+                groupId: params.groupId!,
+                subjectId: params.subjectId!,
+                isFinalGrades: false,
             })
-            .catch((err) => console.error(err))
-            .finally(() => setLoading(false));
-    };
+                .then((response) => {
+                    setUsersWithGrades(
+                        response.data.map((json: JSONMap) =>
+                            userSubjectGradesFromJson(json),
+                        ),
+                    );
+                })
+                .catch((err) => console.error(err))
+                .finally(() => setLoading(false));
+        };
+
+        getGroupSubjectGrades();
+    }, [params.subjectId, params.groupId]);
 
     const onUserClick = (userWithGrades: IUserSubjectGrades) => {
         navigate(

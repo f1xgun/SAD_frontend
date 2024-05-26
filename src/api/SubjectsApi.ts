@@ -6,7 +6,7 @@ class SubjectsApi {
     }
 
     async deleteSubject(subjectId: string) {
-        return await api.delete(`/subjects/${subjectId}`);
+        return await api.delete(`/subjects/${subjectId}/`);
     }
 
     async editSubject(options: { subjectId: string, name: string, teacherId?: string }) {

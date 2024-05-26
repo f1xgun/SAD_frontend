@@ -6,6 +6,7 @@ export interface IGrade {
     subjectName: string;
     createdDate: Date;
     evaluation: number;
+    isFinal: boolean;
 }
 
 export interface IUserSubjectGrades {
@@ -19,6 +20,7 @@ export function gradeFromJson(json: JSONMap) : IGrade {
         subjectName: json["subject_name"] as string,
         createdDate: new Date(json["created_at"] as string),
         evaluation: json.evaluation as number,
+        isFinal: json.isFinal as boolean | null ?? false,
     }
 }
 

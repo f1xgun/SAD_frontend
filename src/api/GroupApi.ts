@@ -37,6 +37,7 @@ class GroupApi {
         return await api.patch(`/groups/${groupId}/`, { "number" : number})
     }
 
+    // TODO: remove teacherId, get id from token
     async getTeacherGroupsWithSubjects(teacherId: string) {
         return await api.get(`/groups/teacher`, { params: { "teacher_id": teacherId }})
     }

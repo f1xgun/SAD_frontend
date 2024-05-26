@@ -17,23 +17,23 @@ const GroupsPage = () => {
     const userState = useAppSelector((state) => state.user.user);
 
     useEffect(() => {
-        getGroupsWithSubjectsList();
-    }, []);
+        const getGroupsWithSubjectsList = async () => {
+            if (userState?.id === undefined) return;
+            setLoading(true);
+            await GroupApi.getTeacherGroupsWithSubjects(userState.id)
+                .then((response) => {
+                    setGroups(
+                        response.data.map((group: JSONMap) =>
+                            groupWithSubjectsFromJson(group),
+                        ),
+                    );
+                })
+                .catch((err) => console.error(err))
+                .finally(() => setLoading(false));
+        };
 
-    const getGroupsWithSubjectsList = async () => {
-        if (userState?.id === undefined) return;
-        setLoading(true);
-        await GroupApi.getTeacherGroupsWithSubjects(userState.id)
-            .then((response) => {
-                setGroups(
-                    response.data.map((group: JSONMap) =>
-                        groupWithSubjectsFromJson(group),
-                    ),
-                );
-            })
-            .catch((err) => console.error(err))
-            .finally(() => setLoading(false));
-    };
+        getGroupsWithSubjectsList();
+    }, [userState?.id]);
 
     const onGroupClick = (group: IGroupWithSubjects) => {
         if (group.subjects.length === 1) {

@@ -1,0 +1,12 @@
+.container {
+    margin-top: 10vh;
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+}
+
+.searchSelects {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}

@@ -11,7 +11,7 @@ class GradesApi {
         return await api.get(`/grades/${userId}`, { params: { "subject_id": subjectId, "is_final": isFinal }})
     }
 
-    async getGroupGradesBySubjectId(options: {groupId: string, subjectId: string, isFinalGrades: boolean}) {
+    async getGroupGradesBySubjectId(options: {groupId: string, subjectId: string, isFinalGrades: boolean | null}) {
         const { groupId, subjectId, isFinalGrades } = options;
         return await api.get('/grades/', { params: { "subject_id": subjectId, "group_id": groupId, "is_final": isFinalGrades}})
     }

@@ -17,6 +17,7 @@ interface InputProps<T> {
     hintMapper?: (arg0: JSONMap) => T;
     getHintName?: (arg: T) => string;
     onHintClick?: (arg: T) => void;
+    onBlur?: () => void;
 }
 
 const Input = <T,>({ ...props }: InputProps<T>) => {
@@ -66,9 +67,8 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
             return (
                 <div
                     className={styles.container}
-                    // Fix onBlur hide hints
-                    // onBlur={(e) => console.log(e)}
-                >
+                    // TODO: Fix onBlur hide hints
+                    onBlur={props?.onBlur}>
                     {props.label !== undefined && (
                         <label className={styles.label}>{props.label}</label>
                     )}
@@ -116,7 +116,7 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                         <label className={styles.label}>{props.label}</label>
                     )}
                     <select
-                        value={value}
+                        value={value || ''}
                         onChange={(e) => {
                             setValue(e.target.value);
                             if (props.onChange !== undefined) {
@@ -127,7 +127,6 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                         <option
                             value=""
                             disabled
-                            selected
                             hidden
                             className={styles.placeholder}>
                             {props.placeholderText}

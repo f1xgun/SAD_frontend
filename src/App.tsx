@@ -23,6 +23,8 @@ import GroupFinalGradesPage from './pages/Teacher/Groups/GroupFinalGradesPage';
 import StudentFinalGradePage from './pages/Teacher/Grades/StudentFinalGradePage';
 import FinalGradesPage from './pages/Student/Grades/FinalGradesPage';
 
+import TestGradesPage from './pages/Teacher/Grades/GradesPage';
+
 function App() {
     const user = useAppSelector((state) => state.user.user);
 
@@ -113,6 +115,16 @@ function App() {
                                 element={
                                     <ProtectedRoute
                                         component={<StudentFinalGradePage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="test_grades"
+                                element={
+                                    <ProtectedRoute
+                                        component={<TestGradesPage />}
                                         allowedRoles={[UserRole.Teacher]}
                                         redirectPath={''}
                                     />
