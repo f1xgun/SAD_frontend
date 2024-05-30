@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
 import { IGroupWithSubjects } from '../../../models/group/group';
-import styles from './GroupsPage.module.css';
+import styles from '../Subjects/SubjectsPage.module.css';
 import { ISubject } from '../../../models/subject/subject';
 
 const GroupWithSubjectsPage = () => {
@@ -17,7 +17,7 @@ const GroupWithSubjectsPage = () => {
 
     return (
         <ScrollContainer
-            emptyChildrenText="Subjects list is empty"
+            emptyChildrenText="Список дисциплин пуст"
             headerTitle={`Дисциплины группы ${group.group.number}`}
             children={
                 group.subjects.map((subject) => {

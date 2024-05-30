@@ -1,22 +1,23 @@
-.group, .student {
+.student {
     display: flex;
     align-items: center;
     gap: 2rem;
     justify-content: space-between;
-    font-size: 2rem;
     cursor: pointer;
     transition: .3s all ease-in;
+    padding: 0.5rem 2rem;
 }
 
 .group:hover, .student:hover, .subject:hover {
-    background-color: #836d8a;
+    background-color: #9cbefd;
 }
 
-.subject {
+.subject, .group {
     font-size: 2rem;
     text-align: center;
     cursor: pointer;
     transition: .3s all ease-in;
+    padding: 0.5rem 2rem;
 }
 
 .studentName {

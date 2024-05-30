@@ -7,6 +7,7 @@ export interface IGrade {
     createdDate: Date;
     evaluation: number;
     isFinal: boolean;
+    comment?: string;
 }
 
 export interface IUserSubjectGrades {

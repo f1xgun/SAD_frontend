@@ -6,6 +6,7 @@ import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer
 import ElementControllers from '../../../components/ElementControllers/ElementControllers';
 import { useNavigate } from 'react-router-dom';
 import { JSONMap } from '../../../models/json';
+import Button from '../../../components/Button/Button';
 
 const GroupsPage = () => {
     const [groups, setGroups] = useState<Array<IGroup>>([]);
@@ -34,13 +35,11 @@ const GroupsPage = () => {
     };
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            emptyChildrenText="Groups list is empty"
+            emptyChildrenText="Список групп пуст"
             headerTitle="Группы"
-            showAddButton={true}
-            onAddButtonClick={() => navigate('/groups/create')}
             children={
                 groups.map((group) => {
                     return (
@@ -59,6 +58,12 @@ const GroupsPage = () => {
                         </div>
                     );
                 }) || []
+            }
+            footer={
+                <Button
+                    text="Добавить группу"
+                    onClick={() => navigate('/groups/create')}
+                />
             }
         />
     );

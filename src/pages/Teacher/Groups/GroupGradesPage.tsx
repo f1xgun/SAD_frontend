@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
-import styles from './GroupsPage.module.css';
+import styles from '../Subjects/SubjectsPage.module.css';
 import {
     IUserSubjectGrades,
     userSubjectGradesFromJson,
@@ -49,11 +49,11 @@ const GroupGradesPage = () => {
     };
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            headerTitle={state.group.number}
-            emptyChildrenText="Nobody student in this group"
+            headerTitle={`Группа ${state.number}`}
+            emptyChildrenText="В группе нет студентов"
             children={
                 usersWithGrades.map((studentWithGrades) => {
                     let sum = 0;

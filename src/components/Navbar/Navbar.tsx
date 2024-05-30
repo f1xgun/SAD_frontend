@@ -3,6 +3,8 @@ import { logout } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import styles from './Navbar.module.css';
 import { UserRole } from '../../models/user/UserRole';
+import LogoutIcon from '../Icons/LogoutIcon/LogoutIcon';
+import AccountIcon from '../Icons/AccountIcon/AccountIcon';
 
 const Navbar = () => {
     const user = useAppSelector((state) => state.user.user);
@@ -15,6 +17,10 @@ const Navbar = () => {
         navigate('/login');
     };
 
+    const onProfileClick = () => {
+        navigate('/user_info');
+    };
+
     return (
         <header className={styles.header}>
             {user != null && (
@@ -25,8 +31,8 @@ const Navbar = () => {
                         </NavLink>
                     )}
                     {user.role === UserRole.Teacher && (
-                        <NavLink to="groups" className={styles.navBlock}>
-                            Группы
+                        <NavLink to="subjects" className={styles.navBlock}>
+                            Дисциплины
                         </NavLink>
                     )}
                     {user.role === UserRole.Admin && (
@@ -46,13 +52,8 @@ const Navbar = () => {
             )}
             {user != null && (
                 <div className={styles.userInfo}>
-                    <div className={styles.navBlock}>{user.login}</div>
-                    <div className={styles.navBlock}>{user.name}</div>
-                    <div
-                        className={`${styles.navBlock} ${styles.button}`}
-                        onClick={onLogout}>
-                        Выйти
-                    </div>
+                    <AccountIcon onClick={onProfileClick} />
+                    <LogoutIcon onClick={onLogout} />
                 </div>
             )}
         </header>

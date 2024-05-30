@@ -13,28 +13,28 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true);
     const userState = useAppSelector((state) => state.user);
 
-    const getUserInfo = async () => {
-        setLoading(true);
-        await UserApi.getSelfUserInfo()
-            .then((response) => {
-                if (response.status == 200) {
-                    dispatch(setUser(response.data));
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
     useEffect(() => {
+        const getUserInfo = async () => {
+            setLoading(true);
+            await UserApi.getSelfUserInfo()
+                .then((response) => {
+                    if (response.status == 200) {
+                        dispatch(setUser(response.data));
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        };
+
         getUserInfo();
-    }, []);
+    }, [dispatch]);
 
     if (loading) {
-        return <div className={styles.container}>Loading...</div>;
+        return <div className={styles.container}>Загрузка...</div>;
     }
 
     if (userState.user === null) {

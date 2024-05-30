@@ -3,5 +3,14 @@
     align-items: center;
     gap: 2rem;
     justify-content: space-between;
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
+    padding: 0.5rem 2rem;
+}
+
+.subjectName {
+    flex: 2;
+}
+
+.evaluation, .date {
+    flex: 1;
 }

@@ -39,10 +39,10 @@ const FinalGradesPage = () => {
     }, [userState.user, dispatch]);
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            emptyChildrenText="Final grades list is empty"
+            emptyChildrenText="Список итоговых оценок пуст"
             headerTitle="Итоговые оценки"
             children={
                 userState.grades?.map((grade) => {

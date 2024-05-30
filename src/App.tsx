@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { UserRole } from './models/user/UserRole';
 import GradesPage from './pages/Student/Grades/GradesPage';
 import { useAppSelector } from './store/store';
-import TeacherGroupsPage from './pages/Teacher/Groups/GroupsPage';
+import TeacherSubjectsPage from './pages/Teacher/Subjects/SubjectsPage';
 import AdminGroupsPage from './pages/Admin/Groups/GroupsPage';
 import AdminGroupPage from './pages/Admin/Groups/GroupPage';
 import AddGroupPage from './pages/Admin/Groups/AddGroupPage';
@@ -22,8 +22,10 @@ import StudentGradesPage from './pages/Teacher/Grades/StudentGradesPage';
 import GroupFinalGradesPage from './pages/Teacher/Groups/GroupFinalGradesPage';
 import StudentFinalGradePage from './pages/Teacher/Grades/StudentFinalGradePage';
 import FinalGradesPage from './pages/Student/Grades/FinalGradesPage';
-
-import TestGradesPage from './pages/Teacher/Grades/GradesPage';
+import SubjectGroupsPage from './pages/Teacher/Subjects/SubjectGroupsPage';
+import StudentAddGradePage from './pages/Teacher/Grades/StudentAddGradePage';
+import StudentEditGradePage from './pages/Teacher/Grades/StudentEditGradePage';
+import UserInfoPage from './pages/UserInfo/UserInfoPage';
 
 function App() {
     const user = useAppSelector((state) => state.user.user);
@@ -61,10 +63,10 @@ function App() {
                     {user?.role == UserRole.Teacher && (
                         <>
                             <Route
-                                path="groups"
+                                path="subjects"
                                 element={
                                     <ProtectedRoute
-                                        component={<TeacherGroupsPage />}
+                                        component={<TeacherSubjectsPage />}
                                         allowedRoles={[UserRole.Teacher]}
                                         redirectPath={''}
                                     />
@@ -111,6 +113,26 @@ function App() {
                                 }
                             />
                             <Route
+                                path="grades/subject/:subjectId/student/:studentId/add_grade"
+                                element={
+                                    <ProtectedRoute
+                                        component={<StudentAddGradePage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="grades/subject/:subjectId/student/:studentId/grade/:gradeId/edit"
+                                element={
+                                    <ProtectedRoute
+                                        component={<StudentEditGradePage />}
+                                        allowedRoles={[UserRole.Teacher]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
                                 path="grades/subject/:subjectId/student/:studentId/final"
                                 element={
                                     <ProtectedRoute
@@ -121,10 +143,10 @@ function App() {
                                 }
                             />
                             <Route
-                                path="test_grades"
+                                path="subject_groups/:subjectId"
                                 element={
                                     <ProtectedRoute
-                                        component={<TestGradesPage />}
+                                        component={<SubjectGroupsPage />}
                                         allowedRoles={[UserRole.Teacher]}
                                         redirectPath={''}
                                     />
@@ -227,6 +249,10 @@ function App() {
                                 }
                             />
                         </>
+                    )}
+
+                    {user !== null && (
+                        <Route path="user_info" element={<UserInfoPage />} />
                     )}
                 </Route>
             </Routes>

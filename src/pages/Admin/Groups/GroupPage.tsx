@@ -5,11 +5,11 @@ import styles from './GroupPage.module.css';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
 import ElementControllers from '../../../components/ElementControllers/ElementControllers';
 import { useNavigate, useParams } from 'react-router-dom';
-import addIcon from '../../../assets/newIcon.svg';
 import Input from '../../../components/Input/Input';
 import { InputType } from '../../../components/Input/InputType';
 import { IUser, userFromJson } from '../../../models/user/User';
 import { JSONMap } from '../../../models/json';
+import Button from '../../../components/Button/Button';
 
 const GroupPage = () => {
     const [group, setGroup] = useState<IGroup>();
@@ -68,17 +68,11 @@ const GroupPage = () => {
     };
 
     return loading || group === undefined ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
             headerTitle={group.number}
-            emptyChildrenText="Nobody student in this group"
-            showEditButton={true}
-            onEditButtonClick={() =>
-                navigate(`/groups/${params.groupId}/edit`, {
-                    state: { groupNumber: group.number },
-                })
-            }
+            emptyChildrenText="В группе нет студентов"
             children={
                 group.students?.map((student) => {
                     return (
@@ -101,7 +95,7 @@ const GroupPage = () => {
                     <div className={styles.searchContainer}>
                         <Input<IUser>
                             type={InputType.text}
-                            placeholderText="Введите логин пользователя"
+                            placeholderText="Введите логин нового студента"
                             onChange={(value) => setLogin(value)}
                             getHints={(login) => getUserHints(login)}
                             hintMapper={(json) => userFromJson(json)}
@@ -109,17 +103,28 @@ const GroupPage = () => {
                             onHintClick={(user) => setCurrentNewUser(user)}
                             value={login}
                         />
-                        <button>
-                            <img src={addIcon} onClick={addNewUser} />
-                        </button>
                     </div>
                     {currentNewUser !== undefined && (
-                        <div className={styles.currentUserContainer}>
-                            <p>Выбранный пользователь для добавления:</p>
-                            <p>Логин: {currentNewUser?.login}</p>
-                            <p>Имя: {currentNewUser?.name}</p>
-                        </div>
+                        <>
+                            <div className={styles.currentUserContainer}>
+                                <p>Выбранный пользователь для добавления:</p>
+                                <p>Логин: {currentNewUser?.login}</p>
+                                <p>Имя: {currentNewUser?.name}</p>
+                            </div>
+                            <Button
+                                text="Добавить студента"
+                                onClick={addNewUser}
+                            />
+                        </>
                     )}
+                    <Button
+                        text="Изменить номер группы"
+                        onClick={() =>
+                            navigate(`/groups/${params.groupId}/edit`, {
+                                state: { groupNumber: group.number },
+                            })
+                        }
+                    />
                 </div>
             }
         />

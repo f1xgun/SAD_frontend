@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './StudentGradesPage.module.css';
 import {
     IGrade,
@@ -43,7 +43,7 @@ const StudentFinalGradePage = () => {
         await getGrade();
     };
 
-    const getGrade = async () => {
+    const getGrade = useCallback(async () => {
         await GradesApi.getStudentSubjectGrades({
             userId: state.student.id,
             subjectId: params.subjectId!,
@@ -54,22 +54,20 @@ const StudentFinalGradePage = () => {
                     gradeFromJson(json),
                 );
 
-                console.log(resp);
-
                 if (grades.length > 0) {
                     setGrade(grades[0]);
                     setEvaluation(finalGrades[grades[0].evaluation]);
                 }
             })
             .finally(() => setLoading(false));
-    };
+    }, [state.student, params.subjectId]);
 
     useEffect(() => {
         getGrade();
-    }, []);
+    }, [getGrade]);
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <Form
             name={state.student.name}

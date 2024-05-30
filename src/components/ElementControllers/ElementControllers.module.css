@@ -1,9 +1,21 @@
 .controllersContainer {
-    background: linear-gradient(#F8EEFD, #C9B0D5);
+    background-color: #F8EEFD;
     border-radius: 1rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.25rem 0.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 0.5rem;
+    width: fit-content;
+}
+
+.controllersContainer img {
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: background-color .3s ease-in-out;
+    border-radius: 0.25rem;
+}
+
+.controllersContainer img:hover {
+    background-color: #6F8EFF;
 }

@@ -1,24 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './StudentGradesPage.module.css';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
 import { IGrade, gradeFromJson } from '../../../models/grades/Grades';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ElementControllers from '../../../components/ElementControllers/ElementControllers';
-import Input from '../../../components/Input/Input';
-import { InputType } from '../../../components/Input/InputType';
-import addIcon from '../../../assets/newIcon.svg';
 import GradesApi from '../../../api/GradesApi';
-import { useAppSelector } from '../../../store/store';
 import { JSONMap } from '../../../models/json';
+import Button from '../../../components/Button/Button';
 
 const StudentGradesPage = () => {
     const { state } = useLocation();
     const [grades, setGrades] = useState<Array<IGrade>>([]);
-    const [evaluation, setEvaluation] = useState<number | null>(null);
     const params = useParams();
-    const user = useAppSelector((state) => state.user.user);
+    const navigate = useNavigate();
 
-    const getGrades = async () => {
+    const getGrades = useCallback(async () => {
         await GradesApi.getStudentSubjectGrades({
             userId: state.student.id,
             subjectId: params.subjectId!,
@@ -30,44 +26,45 @@ const StudentGradesPage = () => {
 
             setGrades(grades);
         });
-    };
+    }, [params.subjectId, state.student]);
 
     const deleteGrade = async (gradeId: string) => {
         await GradesApi.deleteGrade(gradeId);
         await getGrades();
     };
 
-    const addGrade = async () => {
-        if (evaluation === null || user === null) return;
-        await GradesApi.createGrade({
-            subjectId: params.subjectId!,
-            studentId: params.studentId!,
-            evaluation: evaluation,
-            teacherId: user.id,
-            isFinal: false,
-        });
-        await getGrades();
-    };
-
     useEffect(() => {
         getGrades();
-    }, []);
+    }, [getGrades]);
 
     return (
         <ScrollContainer
-            emptyChildrenText="Grades list is empty"
+            emptyChildrenText="Список оценок пуст"
             headerTitle="Последние оценки"
             children={
                 grades.map((grade) => {
                     return (
                         <div key={grade.id} className={styles.grade}>
-                            <p>{grade.evaluation}</p>
-                            <p>{grade.createdDate.toLocaleDateString()}</p>
+                            <p className={styles.evaluation}>
+                                {grade.evaluation}
+                            </p>
+                            <p className={styles.date}>
+                                {grade.createdDate.toLocaleDateString()}
+                            </p>
                             <div className={styles.controllers}>
                                 <ElementControllers
-                                    showEditIcon={false}
+                                    showEditIcon={true}
                                     showDeleteIcon={true}
                                     onDelete={() => deleteGrade(grade.id)}
+                                    onEdit={() =>
+                                        navigate(`./grade/${grade.id}/edit`, {
+                                            state: {
+                                                ...state,
+                                                grade: grade,
+                                            },
+                                            relative: 'path',
+                                        })
+                                    }
                                 />
                             </div>
                         </div>
@@ -75,16 +72,15 @@ const StudentGradesPage = () => {
                 }) || []
             }
             footer={
-                <div className={styles.searchContainer}>
-                    <Input
-                        type={InputType.number}
-                        placeholderText="Введите оценку"
-                        onChange={(value) => setEvaluation(Number(value))}
-                    />
-                    <button>
-                        <img src={addIcon} onClick={addGrade} />
-                    </button>
-                </div>
+                <Button
+                    text="Добавить оценку"
+                    onClick={() =>
+                        navigate('./add_grade', {
+                            state: state,
+                            relative: 'path',
+                        })
+                    }
+                />
             }
         />
     );

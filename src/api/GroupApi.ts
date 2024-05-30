@@ -41,6 +41,10 @@ class GroupApi {
     async getTeacherGroupsWithSubjects(teacherId: string) {
         return await api.get(`/groups/teacher`, { params: { "teacher_id": teacherId }})
     }
+
+    async getGroupsByTeacherAndSubject(subjectId: string) {
+        return await api.get('/groups/get_by_subject', { params: { "subject_id" : subjectId }})
+    }
 }
 
 export default new GroupApi();

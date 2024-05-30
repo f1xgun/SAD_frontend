@@ -34,10 +34,10 @@ const UsersPage = () => {
     };
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            emptyChildrenText="Users list is empty"
+            emptyChildrenText="Список пользователей пуст"
             headerTitle="Пользователи"
             children={
                 users.map((user) => {

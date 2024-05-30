@@ -5,7 +5,11 @@ import ElementControllers from '../../../components/ElementControllers/ElementCo
 import { useNavigate } from 'react-router-dom';
 import { JSONMap } from '../../../models/json';
 import SubjectsApi from '../../../api/SubjectsApi';
-import { ISubjectDetails, subjectFromJson } from '../../../models/subject/subject';
+import {
+    ISubjectDetails,
+    subjectFromJson,
+} from '../../../models/subject/subject';
+import Button from '../../../components/Button/Button';
 
 const SubjectsPage = () => {
     const [subjects, setSubjects] = useState<Array<ISubjectDetails>>([]);
@@ -38,13 +42,11 @@ const SubjectsPage = () => {
     };
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            emptyChildrenText="Subjects list is empty"
+            emptyChildrenText="Список дисциплин пуст"
             headerTitle="Дисциплины"
-            showAddButton={true}
-            onAddButtonClick={() => navigate('/subjects/create')}
             children={
                 subjects.map((subject) => {
                     return (
@@ -70,6 +72,12 @@ const SubjectsPage = () => {
                         </div>
                     );
                 }) || []
+            }
+            footer={
+                <Button
+                    text="Добавить группу"
+                    onClick={() => navigate('/subjects/create')}
+                />
             }
         />
     );

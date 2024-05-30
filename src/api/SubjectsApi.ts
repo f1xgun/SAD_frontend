@@ -26,6 +26,10 @@ class SubjectsApi {
     async getSubjectDetails(subjectId: string) {
         return await api.get(`/subjects/${subjectId}/details`)
     }
+
+    async getTeachersSubjects() {
+        return await api.get('/subjects/get_by_teacher_id')
+    }
 }
 
 export default new SubjectsApi();

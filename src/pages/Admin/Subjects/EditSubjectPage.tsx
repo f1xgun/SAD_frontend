@@ -72,7 +72,7 @@ const EditSubjectPage: React.FC = () => {
     }
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <Form
             name={'Редактирование дисциплины'}

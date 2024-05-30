@@ -3,18 +3,29 @@
     align-items: center;
     gap: 2rem;
     justify-content: space-between;
-    margin-right: 2rem;
+    padding: 0.5rem 2rem;
 }
 
-.searchContainer {
+.evaluation, .controllers {
+    flex: 1;
+}
+
+.date {
+    flex: 2;
+}
+
+.controllers {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 1rem;
+    justify-content: end;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.error {
+    font-size: 1.5rem;
+    color: rgb(221, 101, 101);
 }

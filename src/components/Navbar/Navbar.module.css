@@ -3,13 +3,14 @@
     width: 100%;
     top: 0;
     left: 0;
-    background: #C7C0C0;
+    background: #6486FF;
     height: 10vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
     gap: 2rem;
+    border-radius: 0 0 3.5rem 3.5rem;
 }
 
 .userInfo {
@@ -22,8 +23,14 @@
 .navBlock {
     font-size: 1.5rem;
     border-radius: 1rem;
-    background: #B039CE;
+    background-color: #5570a3;
     padding: 0.5rem 1rem;
+    transition: background-color .3s ease-in;
+}
+
+.navBlock:hover {
+    color: #fff;
+    background-color: #3d47cc;
 }
 
 .navBlocksContainer {
@@ -34,4 +41,13 @@
 
 .button {
     cursor: pointer;
+}
+
+.userInfo img {
+    cursor: pointer;
+    transition: filter .3s ease-in;
+}
+
+.userInfo img:hover {
+    filter: invert(33%) sepia(29%) saturate(2904%) hue-rotate(210deg) brightness(90%) contrast(102%);
 }

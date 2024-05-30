@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer';
-import styles from './GroupsPage.module.css';
+import styles from '../Subjects/SubjectsPage.module.css';
 import {
     IUserSubjectGrades,
     finalGrades,
@@ -21,26 +21,26 @@ const GroupFinalGradesPage = () => {
     const { state } = useLocation();
 
     useEffect(() => {
-        getGroupSubjectGrades();
-    }, []);
-
-    const getGroupSubjectGrades = async () => {
-        setLoading(true);
-        await GradesApi.getGroupGradesBySubjectId({
-            groupId: params.groupId!,
-            subjectId: params.subjectId!,
-            isFinalGrades: true,
-        })
-            .then((response) => {
-                setUsersWithGrades(
-                    response.data.map((json: JSONMap) =>
-                        userSubjectGradesFromJson(json),
-                    ),
-                );
+        const getGroupSubjectGrades = async () => {
+            setLoading(true);
+            await GradesApi.getGroupGradesBySubjectId({
+                groupId: params.groupId!,
+                subjectId: params.subjectId!,
+                isFinalGrades: true,
             })
-            .catch((err) => console.error(err))
-            .finally(() => setLoading(false));
-    };
+                .then((response) => {
+                    setUsersWithGrades(
+                        response.data.map((json: JSONMap) =>
+                            userSubjectGradesFromJson(json),
+                        ),
+                    );
+                })
+                .catch((err) => console.error(err))
+                .finally(() => setLoading(false));
+        };
+
+        getGroupSubjectGrades();
+    }, [params.groupId, params.subjectId]);
 
     const onUserClick = (userWithGrades: IUserSubjectGrades) => {
         navigate(
@@ -50,11 +50,11 @@ const GroupFinalGradesPage = () => {
     };
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            headerTitle={state.group.number}
-            emptyChildrenText="Nobody student in this group"
+            headerTitle={`Группа ${state.number}`}
+            emptyChildrenText="В группе нет студентов"
             children={
                 usersWithGrades.map((studentWithGrades) => {
                     return (

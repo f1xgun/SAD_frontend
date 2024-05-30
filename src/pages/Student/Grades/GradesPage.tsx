@@ -39,18 +39,24 @@ const GradesPage = () => {
     }, [userState.user, dispatch]);
 
     return loading ? (
-        'Loading'
+        'Загрузка'
     ) : (
         <ScrollContainer
-            emptyChildrenText="Grades list is empty"
+            emptyChildrenText="Список оценок пуст"
             headerTitle="Последние оценки"
             children={
                 userState.grades?.map((grade) => {
                     return (
                         <div key={grade.id} className={styles.grade}>
-                            <p>{grade.subjectName}</p>
-                            <p>{grade.evaluation}</p>
-                            <p>{grade.createdDate.toLocaleDateString()}</p>
+                            <p className={styles.subjectName}>
+                                {grade.subjectName}
+                            </p>
+                            <p className={styles.evaluation}>
+                                {grade.evaluation}
+                            </p>
+                            <p className={styles.date}>
+                                {grade.createdDate.toLocaleDateString()}
+                            </p>
                         </div>
                     );
                 }) || []

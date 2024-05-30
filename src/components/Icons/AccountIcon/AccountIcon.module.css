@@ -1,0 +1,11 @@
+.icon {
+    cursor: pointer;
+}
+
+.icon path {
+    transition: all .3s ease-in-out;
+}
+
+.icon:hover path {
+    fill: #ae7acc;
+}
