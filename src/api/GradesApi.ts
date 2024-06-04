@@ -16,14 +16,22 @@ class GradesApi {
         return await api.get('/grades/', { params: { "subject_id": subjectId, "group_id": groupId, "is_final": isFinalGrades}})
     }
 
-    async createGrade(options: {subjectId: string, studentId: string, evaluation: number, teacherId: string, isFinal: boolean}) {
-        const { subjectId, studentId, evaluation, teacherId, isFinal } = options;
+    async createGrade(options: {
+        subjectId: string, 
+        studentId: string, 
+        evaluation: number, 
+        teacherId: string, 
+        isFinal: boolean,
+        comment: string | null,
+    }) {
+        const { subjectId, studentId, evaluation, teacherId, isFinal, comment } = options;
         return await api.post('/grades/', {
             "subject_id": subjectId,
             "student_id": studentId,
             "evaluation": evaluation,
             "teacher_id": teacherId,
             "is_final": isFinal,
+            "comment": comment,
         })
     }
 
@@ -31,9 +39,9 @@ class GradesApi {
         return await api.delete(`/grades/${gradeId}`)
     }
 
-    async updateGrade(options: {gradeId: string, evaluation: number}) {
-        const { gradeId, evaluation } = options;
-        return await api.patch(`/grades/${gradeId}`, { evaluation: evaluation })
+    async updateGrade(options: {gradeId: string, evaluation: number, comment: string | null}) {
+        const { gradeId, evaluation, comment } = options;
+        return await api.patch(`/grades/${gradeId}`, { evaluation: evaluation, comment: comment, })
     }
 }
 

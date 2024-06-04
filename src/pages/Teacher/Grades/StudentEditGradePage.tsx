@@ -21,6 +21,7 @@ const StudentEditGradePage: React.FC = () => {
         if (grade === undefined) return;
         await GradesApi.updateGrade({
             evaluation: evaluation,
+            comment: comment,
             gradeId: grade.id,
         })
             .then(() =>

@@ -48,9 +48,16 @@ const FinalGradesPage = () => {
                 userState.grades?.map((grade) => {
                     return (
                         <div key={grade.id} className={styles.grade}>
-                            <p>{grade.subjectName}</p>
-                            <p>{grade.evaluation}</p>
-                            <p>{grade.createdDate.toLocaleDateString()}</p>
+                            <p className={styles.subjectName}>
+                                {grade.subjectName}
+                            </p>
+                            <p className={styles.evaluation}>
+                                {grade.evaluation}
+                            </p>
+                            <p className={styles.comment}>{grade.comment}</p>
+                            <p className={styles.date}>
+                                {grade.createdDate.toLocaleDateString()}
+                            </p>
                         </div>
                     );
                 }) || []

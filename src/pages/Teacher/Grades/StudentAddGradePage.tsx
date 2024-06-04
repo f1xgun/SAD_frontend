@@ -29,6 +29,7 @@ const StudentAddGradePage = () => {
             evaluation: evaluation,
             teacherId: user.id,
             isFinal: false,
+            comment: comment,
         })
             .then(() => navigate('..', { relative: 'path', state: state }))
             .catch((err) => {

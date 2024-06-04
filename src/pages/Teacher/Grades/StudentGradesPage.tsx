@@ -51,6 +51,7 @@ const StudentGradesPage = () => {
                             <p className={styles.date}>
                                 {grade.createdDate.toLocaleDateString()}
                             </p>
+                            <p className={styles.comment}>{grade.comment}</p>
                             <div className={styles.controllers}>
                                 <ElementControllers
                                     showEditIcon={true}

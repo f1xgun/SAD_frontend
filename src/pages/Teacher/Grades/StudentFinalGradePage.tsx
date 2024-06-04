@@ -23,6 +23,7 @@ const StudentFinalGradePage = () => {
     const [evaluation, setEvaluation] = useState<string>('');
     const [grade, setGrade] = useState<IGrade | null>(null);
     const [errorEditGrade, setErrorEditGrade] = useState<string | null>(null);
+    const [comment, setComment] = useState<string>('');
     const user = useAppSelector((state) => state.user.user);
 
     const changeFinalGrade = async () => {
@@ -33,11 +34,13 @@ const StudentFinalGradePage = () => {
                 evaluation: getEvaluationByValue(evaluation)!,
                 teacherId: user!.id,
                 isFinal: true,
+                comment: comment,
             });
         } else {
             await GradesApi.updateGrade({
                 gradeId: grade.id,
                 evaluation: getEvaluationByValue(evaluation)!,
+                comment: comment,
             }).catch((err) => setErrorEditGrade(err));
         }
         await getGrade();
@@ -57,6 +60,7 @@ const StudentFinalGradePage = () => {
                 if (grades.length > 0) {
                     setGrade(grades[0]);
                     setEvaluation(finalGrades[grades[0].evaluation]);
+                    setComment(grades[0].comment);
                 }
             })
             .finally(() => setLoading(false));
@@ -80,6 +84,14 @@ const StudentFinalGradePage = () => {
                     onChange={(value) => setEvaluation(value)}
                     value={evaluation}
                     options={Object.values(finalGrades)}
+                />,
+                <Input
+                    type={InputType.text}
+                    label="Комментарий"
+                    placeholderText="Введите комментарий"
+                    key="comment"
+                    onChange={(value) => setComment(value)}
+                    value={comment}
                 />,
             ]}
             submitButton={<Button text="Изменить" onClick={changeFinalGrade} />}

@@ -54,6 +54,7 @@ const GradesPage = () => {
                             <p className={styles.evaluation}>
                                 {grade.evaluation}
                             </p>
+                            <p className={styles.comment}>{grade.comment}</p>
                             <p className={styles.date}>
                                 {grade.createdDate.toLocaleDateString()}
                             </p>
