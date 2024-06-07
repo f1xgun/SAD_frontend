@@ -18,7 +18,7 @@ export const userSlice = createSlice({
     reducers: {
         logout: () => initialState,
         setUser: (state, action: PayloadAction<IUser>) => {
-            state.user = action.payload;
+state.user = action.payload;
         },
         setGrades: (state, action: PayloadAction<Array<IGrade>>) => {
             state.grades = action.payload;

@@ -17,7 +17,13 @@ class AuthApi {
     }
 
     async register(data: IRegistrationData) {
-        return await api.post("/register", data);
+        return await api.post("/register", {
+            "name": data.name,
+            "last_name": data.lastName,
+            "middle_name": data.middleName,
+            "login": data.login,
+            "password": data.password,
+        });
     }
 
     logout() {

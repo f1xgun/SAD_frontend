@@ -6,6 +6,7 @@ import { useAppSelector } from '../../store/store';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 import Navbar from '../../components/Navbar/Navbar';
+import { userFromJson } from '../../models/user/User';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const HomePage = () => {
             await UserApi.getSelfUserInfo()
                 .then((response) => {
                     if (response.status == 200) {
-                        dispatch(setUser(response.data));
+                        dispatch(setUser(userFromJson(response.data)));
                     }
                 })
                 .catch((error) => {

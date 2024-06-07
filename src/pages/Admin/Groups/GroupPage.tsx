@@ -7,7 +7,7 @@ import ElementControllers from '../../../components/ElementControllers/ElementCo
 import { useNavigate, useParams } from 'react-router-dom';
 import Input from '../../../components/Input/Input';
 import { InputType } from '../../../components/Input/InputType';
-import { IUser, userFromJson } from '../../../models/user/User';
+import { IUser, getUserFullName, userFromJson } from '../../../models/user/User';
 import { JSONMap } from '../../../models/json';
 import Button from '../../../components/Button/Button';
 
@@ -75,9 +75,10 @@ const GroupPage = () => {
             emptyChildrenText="В группе нет студентов"
             children={
                 group.students?.map((student) => {
+                    const userName = getUserFullName(student);
                     return (
                         <div key={student.id} className={styles.student}>
-                            <p className={styles.studentName}>{student.name}</p>
+                            <p className={styles.studentName}>{userName}</p>
                             <p className={styles.studentRole}>{student.role}</p>
                             <div className={styles.controllers}>
                                 <ElementControllers
@@ -109,7 +110,15 @@ const GroupPage = () => {
                             <div className={styles.currentUserContainer}>
                                 <p>Выбранный пользователь для добавления:</p>
                                 <p>Логин: {currentNewUser?.login}</p>
+                                <p>Фамилия: {currentNewUser?.lastName}</p>
                                 <p>Имя: {currentNewUser?.name}</p>
+                                {currentNewUser?.middleName != null &&
+                                    currentNewUser?.middleName != '' && (
+                                        <p>
+                                            Отчество:{' '}
+                                            {currentNewUser?.middleName}
+                                        </p>
+                                    )}
                             </div>
                             <Button
                                 text="Добавить студента"

@@ -10,6 +10,7 @@ import {
 import { JSONMap } from '../../../models/json';
 import GradesApi from '../../../api/GradesApi';
 import Button from '../../../components/Button/Button';
+import { getUserFullName } from '../../../models/user/User';
 
 const GroupFinalGradesPage = () => {
     const [usersWithGrades, setUsersWithGrades] = useState<
@@ -57,12 +58,14 @@ const GroupFinalGradesPage = () => {
             emptyChildrenText="В группе нет студентов"
             children={
                 usersWithGrades.map((studentWithGrades) => {
+                    const userName = getUserFullName(studentWithGrades.student);
+
                     return (
                         <div
                             key={studentWithGrades.student.id}
                             className={styles.student}
                             onClick={() => onUserClick(studentWithGrades)}>
-                            <p>{studentWithGrades.student.name}</p>
+                            <p>{userName}</p>
                             {studentWithGrades.grades.length > 0 && (
                                 <p>
                                     {finalGrades[

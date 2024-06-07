@@ -4,7 +4,12 @@ import ScrollContainer from '../../../components/ScrollContainer/ScrollContainer
 import ElementControllers from '../../../components/ElementControllers/ElementControllers';
 import { useNavigate } from 'react-router-dom';
 import { JSONMap } from '../../../models/json';
-import { IUser, userFromJson } from '../../../models/user/User';
+import {
+    IUser,
+    getFullName,
+    getUserFullName,
+    userFromJson,
+} from '../../../models/user/User';
 import UserApi from '../../../api/UserApi';
 
 const UsersPage = () => {
@@ -41,9 +46,10 @@ const UsersPage = () => {
             headerTitle="Пользователи"
             children={
                 users.map((user) => {
+                    const username = getUserFullName(user);
                     return (
                         <div key={user.id} className={styles.user}>
-                            <p className={styles.userName}>{user.name}</p>
+                            <p className={styles.userName}>{username}</p>
                             <p className={styles.userRole}>{user.role}</p>
                             <div className={styles.controllers}>
                                 <ElementControllers
@@ -52,7 +58,7 @@ const UsersPage = () => {
                                     onEdit={() =>
                                         navigate(`/users/${user.id}/edit`, {
                                             state: {
-                                                username: user.name,
+                                                user: user,
                                                 userRole: user.role,
                                             },
                                         })

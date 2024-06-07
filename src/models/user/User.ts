@@ -6,6 +6,8 @@ export interface IUser {
     name: string;
     login: string;
     role: UserRole;
+    lastName: string;
+    middleName: string | null;
 }
 
 export function userFromJson(json: JSONMap) : IUser {
@@ -14,6 +16,8 @@ export function userFromJson(json: JSONMap) : IUser {
         name: json.name as string,
         login: json.login as string,
         role: userRoleFromString(json.role as string),
+        lastName: json["last_name"] as string,
+        middleName: json["middle_name"] as string | null,
     };
 }
 
@@ -25,4 +29,12 @@ export function userRoleFromString(role: string) : UserRole {
     };
 
     return roleMap[role] || UserRole.Student;
+}
+
+export function getUserFullName(user: IUser) : string {
+    let fullName = user.lastName + " " + user.name;
+    if( user.middleName !== null && user.middleName !== "") {
+        fullName += " " + user.middleName
+    }
+    return fullName;
 }

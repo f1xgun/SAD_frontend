@@ -9,6 +9,7 @@ import {
 import { JSONMap } from '../../../models/json';
 import GradesApi from '../../../api/GradesApi';
 import Button from '../../../components/Button/Button';
+import { getUserFullName } from '../../../models/user/User';
 
 const GroupGradesPage = () => {
     const [usersWithGrades, setUsersWithGrades] = useState<
@@ -61,12 +62,13 @@ const GroupGradesPage = () => {
                         sum += grade.evaluation;
                     });
 
+                    const userName = getUserFullName(studentWithGrades.student);
                     return (
                         <div
                             key={studentWithGrades.student.id}
                             className={styles.student}
                             onClick={() => onUserClick(studentWithGrades)}>
-                            <p>{studentWithGrades.student.name}</p>
+                            <p>{userName}</p>
                             {studentWithGrades.grades.length > 0 && (
                                 <p>
                                     {Math.round(

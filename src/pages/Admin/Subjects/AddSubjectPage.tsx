@@ -59,7 +59,11 @@ const CreateSubjectPage: React.FC = () => {
                     onChange={(value) => setTeacherName(value)}
                     getHints={(name) => getTeachersHints(name)}
                     hintMapper={(json) => userFromJson(json)}
-                    getHintName={(user) => user.name}
+                    getHintName={(user) =>
+                        user.lastName +
+                        user.name +
+                        (user.middleName != null ? user.middleName : '')
+                    }
                     onHintClick={(user) => setTeacher(user)}
                     value={teacherName}
                 />,

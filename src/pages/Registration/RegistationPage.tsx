@@ -10,18 +10,22 @@ import { useState } from 'react';
 const RegistrationPage = () => {
     const [loginValue, setLoginValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
-    const [fioValue, setFioValue] = useState('');
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState<string>('');
+    const [middleName, setMiddleName] = useState<string>('');
 
     const onSubmit = async () => {
         try {
             const response = await AuthApi.register({
-                name: fioValue,
+                name: name,
+                lastName: lastName,
+                middleName: middleName,
                 login: loginValue,
                 password: passwordValue,
             });
 
             if (response.status == 200) {
-                redirect('/auth');
+                redirect('/login');
             }
         } catch (err) {
             console.error(err);
@@ -57,10 +61,24 @@ const RegistrationPage = () => {
                     />,
                     <Input
                         type={InputType.text}
-                        label="ФИО"
-                        placeholderText="Введите ФИО"
-                        onChange={(value) => setFioValue(value)}
-                        key="password"
+                        label="Фамилия"
+                        placeholderText="Введите фамилию"
+                        onChange={(value) => setLastName(value)}
+                        key="lastName"
+                    />,
+                    <Input
+                        type={InputType.text}
+                        label="Имя"
+                        placeholderText="Введите имя"
+                        onChange={(value) => setName(value)}
+                        key="name"
+                    />,
+                    <Input
+                        type={InputType.text}
+                        label="Отчество"
+                        placeholderText="Введите отчество"
+                        onChange={(value) => setMiddleName(value)}
+                        key="middleName"
                     />,
                 ]}
             />

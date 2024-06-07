@@ -5,7 +5,11 @@ import Input from '../../../components/Input/Input';
 import Button from '../../../components/Button/Button';
 import { useLocation, useParams } from 'react-router-dom';
 import styles from './EditSubjectPage.module.css';
-import { IUser, userFromJson } from '../../../models/user/User';
+import {
+    IUser,
+    getUserFullName,
+    userFromJson,
+} from '../../../models/user/User';
 import { IGroup } from '../../../models/group/group';
 import SubjectsApi from '../../../api/SubjectsApi';
 import { JSONMap } from '../../../models/json';
@@ -16,8 +20,9 @@ const EditSubjectPage: React.FC = () => {
     const [subjectName, setSubjectName] = useState<string>(state.subject.name);
     const [teacher, setTeacher] = useState<IUser | null>(state.subject.teacher);
     const [teacherName, setTeacherName] = useState<string>(
-        state.subject.teacher?.name ?? '',
+        teacher != null ? getUserFullName(teacher) : '',
     );
+
     const [subjectGroups, setSubjectGroups] = useState<Array<IGroup>>(
         state.subject.groups ?? [],
     );
@@ -52,7 +57,10 @@ const EditSubjectPage: React.FC = () => {
         if (response.status === 200) {
             const subject = subjectFromJson(response.data);
             setTeacher(subject.teacher);
-            setTeacherName(subject.teacher?.name ?? '');
+
+            if (subject.teacher != null) {
+                setTeacherName(getUserFullName(subject.teacher));
+            }
         } else {
             setErrorEditSubject(response.data.error);
         }
@@ -93,7 +101,7 @@ const EditSubjectPage: React.FC = () => {
                     onChange={(value) => setTeacherName(value)}
                     getHints={(name) => getTeachersHints(name)}
                     hintMapper={(json) => userFromJson(json)}
-                    getHintName={(user) => user.name}
+                    getHintName={(user) => getUserFullName(user)}
                     onHintClick={(user) => setTeacher(user)}
                     value={teacherName}
                 />,

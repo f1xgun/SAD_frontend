@@ -84,7 +84,6 @@ const GradesTablePage = () => {
         )[0];
         setSelectedGroup(group);
         // setSelectedSubject(null);
-        console.log(selectedGroup, selectedSubject);
     };
 
     const handleChangeSubject = (subjectName: string) => {
