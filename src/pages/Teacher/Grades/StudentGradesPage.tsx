@@ -7,6 +7,7 @@ import ElementControllers from '../../../components/ElementControllers/ElementCo
 import GradesApi from '../../../api/GradesApi';
 import { JSONMap } from '../../../models/json';
 import Button from '../../../components/Button/Button';
+import { getUserFullName } from '../../../models/user/User';
 
 const StudentGradesPage = () => {
     const { state } = useLocation();
@@ -40,7 +41,7 @@ const StudentGradesPage = () => {
     return (
         <ScrollContainer
             emptyChildrenText="Список оценок пуст"
-            headerTitle="Последние оценки"
+            headerTitle={`Последние оценки ${getUserFullName(state.student)}`}
             children={
                 grades.map((grade) => {
                     return (

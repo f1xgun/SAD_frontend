@@ -7,11 +7,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './StudentGradesPage.module.css';
 import GradesApi from '../../../api/GradesApi';
 import { IGrade } from '../../../models/grades/Grades';
+import { IUser, getUserFullName } from '../../../models/user/User';
 
 const StudentEditGradePage: React.FC = () => {
     const { state } = useLocation();
 
     const grade: IGrade = state.grade;
+    const student: IUser = state.student;
     const [evaluation, setEvaluation] = useState<number>(grade.evaluation);
     const [comment, setComment] = useState<string>(grade.comment ?? '');
     const [errorEditGrade, setErrorEditGrade] = useState<string | null>(null);
@@ -35,7 +37,7 @@ const StudentEditGradePage: React.FC = () => {
 
     return (
         <Form
-            name={'Редактирование оценки'}
+            name={`Редактирование оценки ${getUserFullName(student)}`}
             inputs={[
                 <Input
                     type={InputType.number}

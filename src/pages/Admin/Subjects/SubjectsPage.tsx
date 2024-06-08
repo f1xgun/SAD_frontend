@@ -75,7 +75,7 @@ const SubjectsPage = () => {
             }
             footer={
                 <Button
-                    text="Добавить группу"
+                    text="Добавить дисциплину"
                     onClick={() => navigate('/subjects/create')}
                 />
             }

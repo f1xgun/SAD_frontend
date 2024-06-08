@@ -5,7 +5,11 @@ import Input from '../../../components/Input/Input';
 import Button from '../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import styles from './EditSubjectPage.module.css';
-import { IUser, userFromJson } from '../../../models/user/User';
+import {
+    IUser,
+    getUserFullName,
+    userFromJson,
+} from '../../../models/user/User';
 import SubjectsApi from '../../../api/SubjectsApi';
 import { JSONMap } from '../../../models/json';
 
@@ -48,7 +52,7 @@ const CreateSubjectPage: React.FC = () => {
                     label="Название"
                     placeholderText="Введите название дисциплины"
                     key="name"
-                    onChange={(value) => setSubjectName(value)}
+                    onChange={setSubjectName}
                     value={subjectName}
                 />,
                 <Input<IUser>
@@ -56,15 +60,11 @@ const CreateSubjectPage: React.FC = () => {
                     label="Прикрепленный преподаватель"
                     placeholderText="Введите имя преподавателя"
                     key="teacherName"
-                    onChange={(value) => setTeacherName(value)}
-                    getHints={(name) => getTeachersHints(name)}
-                    hintMapper={(json) => userFromJson(json)}
-                    getHintName={(user) =>
-                        user.lastName +
-                        user.name +
-                        (user.middleName != null ? user.middleName : '')
-                    }
-                    onHintClick={(user) => setTeacher(user)}
+                    onChange={setTeacherName}
+                    getHints={getTeachersHints}
+                    hintMapper={userFromJson}
+                    getHintName={getUserFullName}
+                    onHintClick={setTeacher}
                     value={teacherName}
                 />,
             ]}

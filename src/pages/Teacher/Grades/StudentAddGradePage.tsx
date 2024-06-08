@@ -7,6 +7,7 @@ import GradesApi from '../../../api/GradesApi';
 import { useAppSelector } from '../../../store/store';
 import styles from './StudentGradesPage.module.css';
 import Form from '../../../components/Form/Form';
+import { IUser, getUserFullName } from '../../../models/user/User';
 
 const StudentAddGradePage = () => {
     const [evaluation, setEvaluation] = useState<number | null>(null);
@@ -16,6 +17,7 @@ const StudentAddGradePage = () => {
     const navigate = useNavigate();
     const user = useAppSelector((state) => state.user.user);
     const { state } = useLocation();
+    const student: IUser = state.student;
 
     const createGrade = async () => {
         if (user === null) return;
@@ -40,7 +42,7 @@ const StudentAddGradePage = () => {
 
     return (
         <Form
-            name={'Добавление оценки'}
+            name={`Добавление оценки ${getUserFullName(student)}`}
             inputs={[
                 <Input
                     type={InputType.number}
