@@ -5,18 +5,10 @@ import Input from '../../../components/Input/Input';
 import Button from '../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import styles from './EditSubjectPage.module.css';
-import {
-    IUser,
-    getUserFullName,
-    userFromJson,
-} from '../../../models/user/User';
 import SubjectsApi from '../../../api/SubjectsApi';
-import { JSONMap } from '../../../models/json';
 
 const CreateSubjectPage: React.FC = () => {
     const [subjectName, setSubjectName] = useState<string>('');
-    const [teacher, setTeacher] = useState<IUser | null>(null);
-    const [teacherName, setTeacherName] = useState<string>('');
     const [errorCreateSubject, setErrorCreateSubject] = useState<string | null>(
         null,
     );
@@ -24,24 +16,13 @@ const CreateSubjectPage: React.FC = () => {
 
     const createSubject = async () => {
         setErrorCreateSubject(null);
-        await SubjectsApi.createSubject({
-            name: subjectName,
-            teacherId: teacher?.id,
-        })
+        await SubjectsApi.createSubject(subjectName)
             .then(() => navigate('/subjects'))
             .catch((err) => {
                 console.error(err);
                 setErrorCreateSubject(err.response.data.error);
             });
     };
-
-    async function getTeachersHints(
-        teacherName: string,
-    ): Promise<Array<JSONMap>> {
-        return SubjectsApi.getAvailableTeachers(teacherName).then(
-            (response) => response.data,
-        );
-    }
 
     return (
         <Form
@@ -54,18 +35,6 @@ const CreateSubjectPage: React.FC = () => {
                     key="name"
                     onChange={setSubjectName}
                     value={subjectName}
-                />,
-                <Input<IUser>
-                    type={InputType.text}
-                    label="Прикрепленный преподаватель"
-                    placeholderText="Введите имя преподавателя"
-                    key="teacherName"
-                    onChange={setTeacherName}
-                    getHints={getTeachersHints}
-                    hintMapper={userFromJson}
-                    getHintName={getUserFullName}
-                    onHintClick={setTeacher}
-                    value={teacherName}
                 />,
             ]}
             submitButton={<Button text="Создать" onClick={createSubject} />}

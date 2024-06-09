@@ -8,6 +8,9 @@ import styles from './EditUserPage.module.css';
 import UserApi from '../../../api/UserApi';
 import { userRoleFromString } from '../../../models/user/User';
 import { UserRole } from '../../../models/user/UserRole';
+import EditTeacherSection from './EditTeacherSection';
+import { ISubject } from '../../../models/subject/subject';
+import SubjectsApi from '../../../api/SubjectsApi';
 
 const EditUserPage: React.FC = () => {
     const { state } = useLocation();
@@ -20,6 +23,8 @@ const EditUserPage: React.FC = () => {
     );
     const [userRole, setUserRole] = useState<string>(state.userRole);
     const [errorEditUser, setErrorEditUser] = useState<string | null>(null);
+    const [teacherSubjects, setTeacherSubjects] = useState<ISubject[]>([]);
+
     const navigate = useNavigate();
     const params = useParams();
 
@@ -29,8 +34,17 @@ const EditUserPage: React.FC = () => {
             userId: params.userId,
             name: username,
             role: userRoleFromString(userRole),
-        })
-            .then(() => navigate('/users'))
+        });
+    };
+
+    const saveTeacherSubjects = async () => {
+        if (userRole !== UserRole.Teacher) return;
+        await SubjectsApi.updateTeacherSubjects(state.user.id, teacherSubjects);
+    };
+
+    const saveChanges = async () => {
+        await Promise.all([editUser(), saveTeacherSubjects()])
+            .then(() => navigate('/users', { replace: true }))
             .catch((err) => {
                 console.error(err);
                 setErrorEditUser(err.response.data.error);
@@ -46,7 +60,7 @@ const EditUserPage: React.FC = () => {
                     label="Фамилия"
                     placeholderText="Введите новую фамилию пользователя"
                     key="lastName"
-                    onChange={(value) => setUserLastName(value)}
+                    onChange={setUserLastName}
                     value={userLastName}
                 />,
                 <Input
@@ -54,7 +68,7 @@ const EditUserPage: React.FC = () => {
                     label="Имя"
                     placeholderText="Введите новое имя пользователя"
                     key="name"
-                    onChange={(value) => setUsername(value)}
+                    onChange={setUsername}
                     value={username}
                 />,
                 <Input
@@ -62,7 +76,7 @@ const EditUserPage: React.FC = () => {
                     label="Отчество"
                     placeholderText="Введите новое отчество пользователя"
                     key="middleName"
-                    onChange={(value) => setUserMiddleName(value)}
+                    onChange={setUserMiddleName}
                     value={userMiddleName}
                 />,
                 <Input
@@ -70,7 +84,7 @@ const EditUserPage: React.FC = () => {
                     label="Роль"
                     placeholderText="Выберите новую роль пользователя"
                     key="role"
-                    onChange={(value) => setUserRole(value)}
+                    onChange={setUserRole}
                     value={userRole}
                     options={[
                         UserRole.Admin,
@@ -79,7 +93,19 @@ const EditUserPage: React.FC = () => {
                     ]}
                 />,
             ]}
-            submitButton={<Button text="Изменить" onClick={editUser} />}
+            inputs2={
+                userRole === UserRole.Teacher
+                    ? [
+                          <EditTeacherSection
+                              teacherId={state.user.id}
+                              onSave={setTeacherSubjects}
+                          />,
+                      ]
+                    : []
+            }
+            submitButton={
+                <Button text="Сохранить все изменения" onClick={saveChanges} />
+            }
             footer={
                 errorEditUser !== null ? (
                     <div className={styles.footer}>{errorEditUser}</div>

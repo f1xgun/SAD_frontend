@@ -1,24 +1,22 @@
-import styles from './ScrollContainer.module.css';
+import styles from './ScrollSection.module.css';
 
-interface ScrollContainerProps {
-    headerTitle: string;
+interface ScrollSectionProps {
+    title: string;
     children: Array<JSX.Element>;
     emptyChildrenText: string;
     footer?: JSX.Element;
 }
 
-const ScrollContainer: React.FC<ScrollContainerProps> = ({
-    headerTitle,
+const ScrollSection: React.FC<ScrollSectionProps> = ({
+    title,
     children,
     footer,
     emptyChildrenText,
 }) => {
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                {headerTitle}
-            </div>
-            <div className={styles.scrollContainer}>
+            <div className={styles.header}>{title}</div>
+            <div className={styles.scrollSection}>
                 {children.length === 0 ? (
                     <p>{emptyChildrenText}</p>
                 ) : (
@@ -36,4 +34,4 @@ const ScrollContainer: React.FC<ScrollContainerProps> = ({
     );
 };
 
-export default ScrollContainer;
+export default ScrollSection;

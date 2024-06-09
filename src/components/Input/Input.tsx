@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
-import searchIcon from '../../assets/searchIcon.svg';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Input.module.css';
 import { InputType } from './InputType';
 import { JSONMap } from '../../models/json';
 
 interface InputProps<T> {
     placeholderText?: string;
-    withSearchIcon?: boolean;
     type: InputType;
     label?: string;
     value?: string;
-    onSearchIconClick?: () => void;
     onChange?: (arg0: string) => void;
     options?: string[];
     getHints?: (arg: string) => Promise<Array<JSONMap>>;
@@ -24,7 +21,8 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
     const [value, setValue] = useState<string>(props.value ?? '');
     const [hints, setHints] = useState<Array<T>>([]);
     const [showHints, setShowHints] = useState<boolean>(false);
-    const [currentHintValue, setCurrentHintValue] = useState<T>();
+    const [currentHintValue, setCurrentHintValue] = useState<T | null>(null);
+    const inputRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         updateHints();
@@ -60,15 +58,31 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
         setShowHints(false);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                inputRef.current &&
+                !inputRef.current.contains(event.target as Node)
+            ) {
+                setShowHints(false);
+                if (props.onBlur) {
+                    props.onBlur();
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [inputRef, props]);
+
     switch (props.type) {
         case InputType.text:
         case InputType.password:
         case InputType.number:
             return (
-                <div
-                    className={styles.container}
-                    // TODO: Fix onBlur hide hints
-                    onBlur={props?.onBlur}>
+                <div className={styles.container} ref={inputRef}>
                     {props.label !== undefined && (
                         <label className={styles.label}>{props.label}</label>
                     )}
@@ -76,7 +90,10 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                         <input
                             value={value}
                             onChange={(e) => {
+                                setCurrentHintValue(null);
+
                                 setValue(e.target.value);
+
                                 if (props.onChange !== undefined) {
                                     props.onChange(e.target.value);
                                 }
@@ -86,14 +103,6 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                             className={styles.input}
                             onFocus={updateHints}
                         />
-                        {props.withSearchIcon !== undefined && (
-                            <img
-                                src={searchIcon}
-                                alt="Search icon"
-                                onClick={props.onSearchIconClick}
-                                className={styles.searchIcon}
-                            />
-                        )}
                         {showHints && props.getHintName !== undefined && (
                             <div className={styles.hints}>
                                 {hints.map((hint, ind) => (
@@ -123,6 +132,7 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                                 props.onChange(e.target.value);
                             }
                         }}
+                        defaultValue={value || ''}
                         className={styles.selectInput}>
                         <option
                             value=""
@@ -158,14 +168,6 @@ const Input = <T,>({ ...props }: InputProps<T>) => {
                             type="date"
                             className={styles.input}
                         />
-                        {props.withSearchIcon !== undefined && (
-                            <img
-                                src={searchIcon}
-                                alt="Search icon"
-                                onClick={props.onSearchIconClick}
-                                className={styles.searchIcon}
-                            />
-                        )}
                     </div>
                 </div>
             );

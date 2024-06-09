@@ -1,4 +1,4 @@
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
@@ -13,23 +13,27 @@ const RegistrationPage = () => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState<string>('');
     const [middleName, setMiddleName] = useState<string>('');
+    const [registrationError, setRegistrationError] = useState<string>('');
+
+    const navigate = useNavigate();
 
     const onSubmit = async () => {
-        try {
-            const response = await AuthApi.register({
-                name: name,
-                lastName: lastName,
-                middleName: middleName,
-                login: loginValue,
-                password: passwordValue,
+        await AuthApi.register({
+            name: name,
+            lastName: lastName,
+            middleName: middleName,
+            login: loginValue,
+            password: passwordValue,
+        })
+            .then((resp) => {
+                if (resp.status == 200) {
+                    navigate('/login', { replace: true });
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                setRegistrationError(err.response.data.error);
             });
-
-            if (response.status == 200) {
-                redirect('/login');
-            }
-        } catch (err) {
-            console.error(err);
-        }
     };
 
     return (
@@ -38,6 +42,11 @@ const RegistrationPage = () => {
                 name="Регистрация"
                 footer={
                     <div className={styles.footer}>
+                        {registrationError !== null ? (
+                            <div className={styles.error}>
+                                {registrationError}
+                            </div>
+                        ) : undefined}
                         <Link to="/login">Уже зарегистрированы?</Link>
                     </div>
                 }

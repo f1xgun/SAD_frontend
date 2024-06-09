@@ -10,13 +10,23 @@ import { useState } from 'react';
 const LoginPage = () => {
     const [loginValue, setLoginValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const [loginError, setLoginError] = useState<string | null>();
     const navigate = useNavigate();
 
     const onSubmit = async () => {
-        const response = await AuthApi.login({
+        let response;
+        await AuthApi.login({
             login: loginValue,
             password: passwordValue,
-        });
+        })
+            .then((resp) => {
+                response = resp;
+                setLoginError(null);
+            })
+            .catch((err) => {
+                setLoginError(err.response.data.error);
+                console.error(err);
+            });
 
         if (response) {
             navigate('/');
@@ -29,6 +39,9 @@ const LoginPage = () => {
                 name="Вход"
                 footer={
                     <div className={styles.footer}>
+                        {loginError !== null ? (
+                            <div className={styles.error}>{loginError}</div>
+                        ) : undefined}
                         <Link to="/register">Нужна учетная запись?</Link>
                     </div>
                 }

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { JSONMap } from '../../../models/json';
 import {
     IUser,
-    getFullName,
     getUserFullName,
     userFromJson,
 } from '../../../models/user/User';

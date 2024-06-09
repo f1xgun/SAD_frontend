@@ -1,0 +1,17 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.subject {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+}
+
+.subjectName {
+    flex: 70%;
+}

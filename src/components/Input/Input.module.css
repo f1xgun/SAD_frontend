@@ -9,7 +9,7 @@
 .selectInput {
     padding: 0.5rem 1rem;
     font-size: 1.25rem;
-    background-color: #ECECEC;
+    background-color: #fff;
     border-radius: 0.8rem;
     color: #000000;
     min-width: fit-content;
@@ -56,7 +56,7 @@
 .hints {
     position: absolute;
     width: 100%;
-    background: #ECECEC;
+    background: #fff;
     color: #000;
     top: 0;
     padding-top: 2.5rem;
@@ -68,10 +68,10 @@
 .hintsItem {
     cursor: pointer;
     transition: .3s all ease-in;
+    padding: 0.2rem 0.5rem;
 }
 
 .hintsItem:hover {
-    background: #C070E5;
-    color: #fff;
+    background: #d7d9d9d1;
     overflow: hidden;
 }
