@@ -1,4 +1,4 @@
-import api from "./HttpCommon";
+import { api, csvApi } from "./HttpCommon";
 
 class GradesApi {
     async getStudentGrades(options: {userId: string, isFinal: boolean}) {
@@ -42,6 +42,10 @@ class GradesApi {
     async updateGrade(options: {gradeId: string, evaluation: number, comment: string | null}) {
         const { gradeId, evaluation, comment } = options;
         return await api.patch(`/grades/${gradeId}`, { evaluation: evaluation, comment: comment, })
+    }
+
+    async getGradesReport() {
+        return await csvApi.get('/grades/get_report_csv', { responseType: 'blob' })
     }
 }
 

@@ -1,4 +1,4 @@
-import api from "./HttpCommon";
+import { api } from "./HttpCommon";
 
 class GroupApi {
     async getGroups() {

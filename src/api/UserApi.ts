@@ -1,5 +1,5 @@
 import { UserRole } from "../models/user/UserRole";
-import api from "./HttpCommon";
+import { api } from "./HttpCommon";
 
 class UserApi {
     async getUserInfo(userId: string) {

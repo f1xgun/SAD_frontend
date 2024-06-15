@@ -46,6 +46,11 @@ const Navbar = () => {
                             <NavLink to="subjects" className={styles.navBlock}>
                                 Дисциплины
                             </NavLink>
+                            <NavLink
+                                to="grades/export"
+                                className={styles.navBlock}>
+                                Оценки
+                            </NavLink>
                         </div>
                     )}
                 </>

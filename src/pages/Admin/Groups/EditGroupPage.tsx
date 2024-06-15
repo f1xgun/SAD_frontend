@@ -40,6 +40,7 @@ const EditGroupPage: React.FC = () => {
                     value={groupNumber}
                 />,
             ]}
+            inputs2={[]}
             submitButton={<Button text="Изменить" onClick={editGroup} />}
             footer={
                 errorEditGroup !== null ? (

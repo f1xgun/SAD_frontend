@@ -20,7 +20,8 @@ const ProtectedRoute = ({
         userState.user === null ||
         !allowedRoles.includes(userState.user.role)
     ) {
-        return navigate(redirectPath, { replace: true });
+        navigate(redirectPath, { replace: true });
+        return <></>;
     }
 
     return component;

@@ -26,6 +26,7 @@ import SubjectGroupsPage from './pages/Teacher/Subjects/SubjectGroupsPage';
 import StudentAddGradePage from './pages/Teacher/Grades/StudentAddGradePage';
 import StudentEditGradePage from './pages/Teacher/Grades/StudentEditGradePage';
 import UserInfoPage from './pages/UserInfo/UserInfoPage';
+import GradesExportRecord from './pages/Admin/Grades/GradesExportRecord';
 
 function App() {
     const user = useAppSelector((state) => state.user.user);
@@ -243,6 +244,16 @@ function App() {
                                 element={
                                     <ProtectedRoute
                                         component={<AddSubjectPage />}
+                                        allowedRoles={[UserRole.Admin]}
+                                        redirectPath={''}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="grades/export"
+                                element={
+                                    <ProtectedRoute
+                                        component={<GradesExportRecord />}
                                         allowedRoles={[UserRole.Admin]}
                                         redirectPath={''}
                                     />

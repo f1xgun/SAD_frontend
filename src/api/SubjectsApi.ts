@@ -1,5 +1,5 @@
 import { ISubject } from "../models/subject/subject";
-import api from "./HttpCommon";
+import { api } from "./HttpCommon";
 
 class SubjectsApi {
     async getSubjects() {
