@@ -3,12 +3,12 @@ import { api, csvApi } from "./HttpCommon";
 class GradesApi {
     async getStudentGrades(options: {userId: string, isFinal: boolean}) {
         const { userId, isFinal } = options;
-        return await api.get(`/grades/${userId}`, { params: {"is_final": isFinal}});
+        return await api.get(`/grades/student/${userId}`, { params: {"is_final": isFinal}});
     }
 
     async getStudentSubjectGrades(options: {userId: string, subjectId: string, isFinal: boolean}) {
         const { userId, subjectId, isFinal } = options;
-        return await api.get(`/grades/${userId}`, { params: { "subject_id": subjectId, "is_final": isFinal }})
+        return await api.get(`/grades/student/${userId}`, { params: { "subject_id": subjectId, "is_final": isFinal }})
     }
 
     async getGroupGradesBySubjectId(options: {groupId: string, subjectId: string, isFinalGrades: boolean | null}) {
