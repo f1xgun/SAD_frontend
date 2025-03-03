@@ -16,7 +16,7 @@ class GroupApi {
 
     async addNewUserToGroup(options: { groupId: string, userId: string }) {
         const { groupId, userId } = options;
-        return await api.post(`/groups/${groupId}/users/`, { "user_id": userId})
+        return await api.post(`/groups/${groupId}/users`, { "user_id": userId})
     }
 
     async deleteUserFromGroup(options: { groupId: string, userId: string }) {
@@ -25,16 +25,16 @@ class GroupApi {
     }
 
     async deleteGroup(groupId: string) {
-        return await api.delete(`/groups/${groupId}/`)
+        return await api.delete(`/groups/${groupId}`)
     }
 
     async createGroup(number: string) {
-        return await api.post(`/groups/`, { "number": number })
+        return await api.post(`/groups`, { "number": number })
     }
 
     async editGroup(options : { groupId: string, number: string }) {
         const { groupId, number } = options;
-        return await api.patch(`/groups/${groupId}/`, { "number" : number})
+        return await api.patch(`/groups/${groupId}`, { "number" : number})
     }
 
     // TODO: remove teacherId, get id from token

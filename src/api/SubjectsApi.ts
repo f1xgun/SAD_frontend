@@ -7,7 +7,7 @@ class SubjectsApi {
     }
 
     async deleteSubject(subjectId: string) {
-        return await api.delete(`/subjects/${subjectId}/`);
+        return await api.delete(`/subjects/${subjectId}`);
     }
 
     async editSubject(options: { subjectId: string, name: string}) {
@@ -16,7 +16,7 @@ class SubjectsApi {
     }
 
     async createSubject(name: string) {
-        return await api.post(`/subjects/`, { "name": name })
+        return await api.post(`/subjects`, { "name": name })
     }
 
     async getAvailableTeachers(teacherName: string) {

@@ -13,7 +13,7 @@ class GradesApi {
 
     async getGroupGradesBySubjectId(options: {groupId: string, subjectId: string, isFinalGrades: boolean | null}) {
         const { groupId, subjectId, isFinalGrades } = options;
-        return await api.get('/grades/', { params: { "subject_id": subjectId, "group_id": groupId, "is_final": isFinalGrades}})
+        return await api.get('/grades', { params: { "subject_id": subjectId, "group_id": groupId, "is_final": isFinalGrades}})
     }
 
     async createGrade(options: {
@@ -25,7 +25,7 @@ class GradesApi {
         comment: string | null,
     }) {
         const { subjectId, studentId, evaluation, teacherId, isFinal, comment } = options;
-        return await api.post('/grades/', {
+        return await api.post('/grades', {
             "subject_id": subjectId,
             "student_id": studentId,
             "evaluation": evaluation,
