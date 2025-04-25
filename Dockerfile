@@ -9,6 +9,10 @@ RUN npm ci
 
 # Копируем исходники и собираем приложение
 COPY . .
+
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 # Второй этап: создание образа для запуска
